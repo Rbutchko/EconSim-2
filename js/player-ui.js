@@ -9,14 +9,14 @@ const EMPTY_INVENTORY = {
 	'tools' : 0
 };
 
-const firms = 'mine smith forester farm mill baker refinery mint'.split(' ');
+const FIRMS = 'mine smith forester farm mill baker refinery mint'.split(' ');
 
 $( ()=> {
 	fillPlayerInputTable();
 
 	let tmpHTML = '<div class="row">';
-	for(idx in firms)
-		tmpHTML += '<div class="col-sm-4">' + capitalize(firms[idx]) + ': ' + 0 + ' <img src="img/icons/' + icons[firms[idx] ] + '.png" class="icon-md"><br><br></div>';
+	for(idx in FIRMS)
+		tmpHTML += '<div class="col-sm-4">' + capitalize(FIRMS[idx]) + ': ' + 0 + ' <img src="img/icons/' + icons[FIRMS[idx] ] + '.png" class="icon-md"><br><br></div>';
 	$('#player-firms').html(tmpHTML+'</div>');
 	// $('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');
 	// $('#player-firms').append('<br>TODO: pie chart for types of firms');
