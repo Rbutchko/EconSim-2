@@ -271,12 +271,12 @@ function tick(overridePause=false) {
 				AIs[i].adjust();
 		}
 	}
+	ticks++;
 	//updates the current season
 	if(ticks % SEASON_LENGTH == 0) {
 		changeSeason();
 		// console.log(currentSeason);
 	}
-	ticks++;
 	display(AIs);
 }
 
