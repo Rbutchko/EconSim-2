@@ -1,5 +1,5 @@
 # Econ-Sim
 
-Simulating Economies
+*Simulating Economies*
 
-https://justingolden21.github.io/Econ-Sim/
+[Live Demo](https://Rbutchko.github.io/EconSim-2/)
