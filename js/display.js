@@ -55,11 +55,12 @@ function display(firms) {
 	$('.prices').html(tmpHTML);
 	drawChart(avgPrices);
 
-	document.getElementById('ticks').innerHTML = ticks;
-	document.getElementById('firms').innerHTML = AIs.length;
-	document.getElementById('activity').innerHTML = activity +
-		' <i class="fas fa-arrow-' + (activity > prevActivity ? 'up' : 'down') + '"></i>';
-	document.getElementById('expand').innerHTML = firmsTryingToExpand + ' / ' + AIs.length;
+	$('.ticks').html(ticks);
+	$('.firms').html(AIs.length);
+	$('.activity').html(activity +
+		' <i class="fas fa-arrow-' + (activity > prevActivity ? 'up' : 'down') + '"></i>');
+	$('.expand').html(firmsTryingToExpand + ' / ' + AIs.length);
+	$('.season').html(getSeasonName(currentSeason) );
 
 
 	let totalInventory = {};

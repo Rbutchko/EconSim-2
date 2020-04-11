@@ -17,6 +17,10 @@ function changeSeason() {
 	}
 }
 
+function getSeasonName(seasonNum) {
+	return ['Winter','Spring','Summer','Fall'][seasonNum-1];
+}
+
 // inventory numbers are multiplied against the produced good
 const SEASONS = {
 	[WINTER]: {
