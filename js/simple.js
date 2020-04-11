@@ -28,6 +28,7 @@ $( ()=> {
 	$('#player-inventory').html(tmpHTML+'</div>');
 	$('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
 	$('#player-inventory').append('<br>TODO: pie chart for types of resources');
+	$('#player-inventory').append('<br>TODO: what firms produce or require this resource');
 });
 
 function fillPlayerInputTable() {
