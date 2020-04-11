@@ -1,3 +1,6 @@
+body {
+	background-image: url('../img/bg-transparent.png');
+}
 .progressbar {
 	background-color: #333;
 	height: 5px;
@@ -16,11 +19,22 @@
 hr {
 	border: 1px solid #999;
 }
-.icon-sm {
+.icon-xs {
 	width: 24px;
+}
+.icon-sm {
 	margin-right: 2px;
+	width: 32px;
 }
 .icon-md {
-	width: 48px;
 	margin: 4px;
+	width: 48px;
+}
+.icon-lg {
+	width: 64px;
+}
+#trade-table td {
+	padding: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
