@@ -6,8 +6,8 @@ $( ()=> {
 
 function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
-	for(idx in FIRMS)
-		tmpHTML += '<div class="col-sm-4">' + capitalize(FIRMS[idx]) + ': ' + getCountOfPlayerFirms(FIRMS[idx]) + getSprite(FIRMS[idx], 'md') + '<br><br></div>';
+	for(firm of FIRMS)
+		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' + getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
 	$('#player-firms').html(tmpHTML+'</div>');
 	// $('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');
 	// $('#player-firms').append('<br>TODO: pie chart for types of firms');
