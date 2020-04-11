@@ -27,5 +27,6 @@ const icons = {
 };
 
 function getSprite(name, size='sm') {
+	// console.log(name);
 	return '<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';
 }
