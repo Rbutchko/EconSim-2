@@ -11,7 +11,7 @@ function display(firms) {
 		tmpHTML += 'Firm #' + firms[firm].firmNum + ' &mdash; ' + getSprite(firms[firm].type(), 'md') + capitalize(firms[firm].type() ) + ':<br>';
 		tmpHTML += 'Bankrupt: ' + formatBool(firms[firm].bankrupt) + '<hr><b>Inventory</b><br>';
 		for(item in firms[firm].inventory) {
-			tmpHTML += getSprite(item) + capitalize(item) + ': ' + firms[firm].inventory[item] + 
+			tmpHTML += getSprite(item, 'xs') + capitalize(item) + ': ' + firms[firm].inventory[item] + 
 			'<div class="progressbar" style="width:' + Math.min(firms[firm].inventory[item]/10,200) + 'px;"></div>';
 		}
 		// tmpHTML += '<hr>Reserve:<br>';
@@ -44,7 +44,7 @@ function display(firms) {
 		avgPrices[sellResource].count++;
 	}
 
-	document.getElementById('display').innerHTML = tmpHTML;
+	$('#display').html(tmpHTML);
 
 	tmpHTML = 'Prices: ';
 	for(resource in avgPrices) {
@@ -99,12 +99,10 @@ function displayPlayer() {
 	if(!player) return;
 
 	let tmpHTML = '';
-
-	for(resource in player[0].inventory) {
+	for(resource in player[0].inventory)
 		tmpHTML += resource + ': ' + player[0].inventory[resource] + ' | ';
-	}
 
-	document.getElementById('player-display').innerHTML = tmpHTML;
+	$('#player-display').html(tmpHTML);
 }
 
 const round = (num, places=3) => Number( (num).toFixed(places) );
