@@ -12,7 +12,9 @@ body {
 	width: 48px;
 }
 #trade-table td {
-	padding: 20px;
+	padding: 8px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 #player-firms {
 	/*text-align: right;*/

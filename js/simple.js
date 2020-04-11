@@ -34,34 +34,42 @@ const icons = {
 
 const firms = 'mine smith forester farm mill baker refinery mint'.split(' ');
 
+// also in display.js
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
 window.onload = ()=> {
 
 	let tmpHTML = '';
 	for(item in inventory)
-		tmpHTML += item + ': ' + inventory[item] + ' <img src="img/icons/' + icons[item] + '.png" class="icon-sm"> | ';
+		tmpHTML += capitalize(item) + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-sm"> | ';
+	$('#prices').html(tmpHTML);
+
+	tmpHTML = '';
+	for(item in inventory)
+		tmpHTML += capitalize(item) + ': ' + inventory[item] + ' <img src="img/icons/' + icons[item] + '.png" class="icon-sm"> | ';
 	$('#total-resources').html(tmpHTML);
 
 	tmpHTML = '';
 	for(idx in firms)
-		tmpHTML += firms[idx] + ': ' + 0 + ' <img src="img/icons/' + icons[firms[idx] ] + '.png" class="icon-sm"> | ';
+		tmpHTML += capitalize(firms[idx]) + ': ' + 0 + ' <img src="img/icons/' + icons[firms[idx] ] + '.png" class="icon-sm"> | ';
 	$('#firm-types').html(tmpHTML);
-
-	tmpHTML = '';
-	for(item in inventory)
-		tmpHTML += item + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-sm"> | ';
-	$('#prices').html(tmpHTML);
 
 	fillPlayerInputTable();
 
 	tmpHTML = '<div class="row">';
 	for(idx in firms)
-		tmpHTML += '<div class="col-sm-4">' + firms[idx] + ': ' + 0 + ' <img src="img/icons/' + icons[firms[idx] ] + '.png" class="icon-md"><br><br></div>';
+		tmpHTML += '<div class="col-sm-4">' + capitalize(firms[idx]) + ': ' + 0 + ' <img src="img/icons/' + icons[firms[idx] ] + '.png" class="icon-md"><br><br></div>';
 	$('#player-firms').html(tmpHTML+'</div>');
+	$('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');
+	$('#player-firms').append('TODO: pie chart for types of firms');
 
 	tmpHTML = '<div class="row">';
 	for(item in inventory)
-		tmpHTML += '<div class="col-sm-4">' + item + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-md"><br><br></div>';
+		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-md"><br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
+	$('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
+	$('#player-inventory').append('TODO: pie chart for types of resources');
+
 
 }
 
@@ -69,8 +77,8 @@ function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';
 	for(item in inventory) {
 		tmpHTML += '<tr>' +
-			'<td>' + item + '</td>' +
-			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-md"></td>' +
+			'<td>' + capitalize(item) + '</td>' +
+			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-sm"></td>' +
 			'<td>' +
 				'<div class="custom-control custom-switch">' +
 					'<input type="checkbox" class="custom-control-input" id="' + item + '-switch">' +
@@ -88,5 +96,3 @@ function fillPlayerInputTable() {
 
 	$('#trade-table').html(tmpHTML);
 }
-
-

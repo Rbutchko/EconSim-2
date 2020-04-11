@@ -19,10 +19,37 @@
 </head>
 
 <body class="container">
+	<ul class="nav nav-tabs" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link text-secondary active" id="trading-tab" data-toggle="tab" href="#trading" role="tab" aria-controls="trading" aria-selected="true">Trading</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-secondary" id="firms-tab" data-toggle="tab" href="#firms" role="tab" aria-controls="firms" aria-selected="false">Firms</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-secondary" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-secondary" id="economy-overview-tab" data-toggle="tab" href="#economy-overview" role="tab" aria-controls="economy-overview" aria-selected="false">Economy Overview</a>
+		</li>
+	</ul>
 	<br>
-	<div id="economy-overview">
-		<h3>Economy Overview</h3>
-		<p>
+	<div class="tab-content">
+		<div class="tab-pane fade show active" id="trading" role="tabpanel" aria-labelledby="trading-tab">
+			<h5>Trade:</h5>
+			<table id="trade-table"></table>	
+		</div>
+		<div class="tab-pane fade show" id="firms" role="tabpanel" aria-labelledby="firms-tab">
+			<h5>Firms:</h5>
+			<div id="player-firms"></div>
+		</div>
+		<div class="tab-pane fade show" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+			<h5>Inventory:</h5>
+			<div id="player-inventory"></div>
+		</div>
+		<div class="tab-pane fade show" id="economy-overview" role="tabpanel" aria-labelledby="economy-overview-tab">
+			<h3>Economy Overview</h3>
+			<p>
 			Tick:
 			<span id="ticks">0</span>
 			| Firms: 
@@ -31,30 +58,22 @@
 			<span id="resources">0</span>
 			| Activity: 
 			<span id="activity">0</span>
-		</p>
-		Total Resources: <p id="total-resources"></p>
-		Total Firms: <p id="firm-types"></p>
-		Prices: <p id="prices"></p>
-	</div>
-
-	<hr>
-
-	<h3>My Inventory and Firms</h3>
-	<div class="row">
-		<div class="col-lg-8">
-			<h5>Trade:</h5>
-			<table id="trade-table"></table>			
-		</div>
-		<div class="col-lg-4">
-			<h5>Firms:</h5>
-			<div id="player-firms"></div>
-			<h5>Inventory:</h5>
-			<div id="player-inventory"></div>
+			| Season: 
+			<span id="season">Spring</span>
+			</p>
+			Prices: <p id="prices"></p>
+			Total Resources: <p id="total-resources"></p>
+			Total Firms: <p id="firm-types"></p>
+			<p>3 GRAPHS GO HERE</p>
+			<!-- <p>TODO: Three line graphs, with each resource (or firm) plotted, time on the x axis and either prices of resource, amount of resource, or amount of firm on y axis</p> -->
 		</div>
 	</div>
 
-
-	</div>
+	<!-- 
+	NOTES:
+	pie charts in economy overview, firms, and rsources of how many firms and resource in either economy or personal inventory
+	
+	 -->
 
 </body>
 </html>
