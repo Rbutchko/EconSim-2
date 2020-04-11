@@ -18,7 +18,12 @@ const icons = {
 	'mill'	  : 'SGI_49',
 	'baker'	  : 'SGI_75',
 	'refinery': 'SGI_121',
-	'mint'	  : 'SGI_144'
+	'mint'	  : 'SGI_144',
+
+	'winter':'SGI_170',
+	'spring':'SGI_64',
+	'summer':'SGI_134',
+	'fall':'SGI_51'
 };
 
 function getSprite(name, size='sm') {
