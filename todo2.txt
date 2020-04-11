@@ -1,0 +1,7 @@
+todo2
+
+implement player working. update player display every tick (call from display.js, remove old displayPlayer func)
+
+player firms must be able to trade from other firms (but eventually according to values in trading tab)
+
+player firms must share a pool of resources, player resources. extend firm class and add functionality for pooled resources... oh boy...

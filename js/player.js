@@ -26,10 +26,10 @@ function setupPlayer() {
 
 function getCountOfPlayerFirms(firmType) {
 	let count = 0;
-	// for(firm of player.firms) {
-	// 	if(firm.type()==firmType) {
-	// 		count++;
-	// 	}
-	// }
+	for(playerFirm of player.firms) {
+		if(playerFirm.type()==firmType) {
+			count++;
+		}
+	}
 	return count;
 }

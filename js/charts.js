@@ -39,7 +39,7 @@ const RESOURCE_COLORS = [
 	'#DBAC86',
 	'#967752'
 ];
-
+// note: when a resource isn't drawn, its color isn't skipped. meaning the next resource uses that color, and so on
 
 function drawChart(avgPrices) {
 	addPrevPrices(avgPrices);

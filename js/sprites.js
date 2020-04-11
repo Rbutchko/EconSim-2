@@ -26,7 +26,4 @@ const icons = {
 	'fall':'SGI_51'
 };
 
-function getSprite(name, size='sm') {
-	// console.log(name);
-	return '<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';
-}
+const getSprite =(name, size='sm') => '<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';
