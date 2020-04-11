@@ -1,4 +1,4 @@
-let inventory = {
+const EMPTY_INVENTORY = {
 	'money' : 0,
 	'bread' : 0,
 	'ore'   : 0,
@@ -23,7 +23,7 @@ $( ()=> {
 	// $('#player-firms').append('<br>TODO: what the firm inputs and outputs');
 
 	tmpHTML = '<div class="row">';
-	for(item in inventory)
+	for(item in EMPTY_INVENTORY)
 		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-md"><br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
 	// $('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
@@ -33,7 +33,7 @@ $( ()=> {
 
 function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';
-	for(item in inventory) {
+	for(item in EMPTY_INVENTORY) {
 		tmpHTML += '<tr>' +
 			'<td>' + capitalize(item) + '</td>' +
 			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-sm"></td>' +
