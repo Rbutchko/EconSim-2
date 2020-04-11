@@ -17,8 +17,6 @@ color highlighted resources per firm (if it's produce cost or for expand or upke
 in future there may be production substitutes, you can either have bread OR meat etc.
 That will make the supply curve smoother as well
 
-while we do not have money being added to the system through a 'Mint' firm, we need to have the money supply increase here
-by deducting less than we add.
 for the sake of simplicity, a firm will not need have any of what they produce to expand for now.
 if you think about it, you'll see why that's hard to program
 
