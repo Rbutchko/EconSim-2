@@ -1,35 +1,27 @@
-const EMPTY_INVENTORY = {
-	'money' : 0,
-	'bread' : 0,
-	'ore'   : 0,
-	'lumber': 0,
-	'metal' : 0,
-	'wheat' : 0,
-	'flour' : 0,
-	'tools' : 0
-};
-
-const FIRMS = 'mine smith forester farm mill baker refinery mint'.split(' ');
-
 $( ()=> {
 	fillPlayerInputTable();
 
+	// drawPlayerUI(); // called in main
+});
+
+function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
 	for(idx in FIRMS)
-		tmpHTML += '<div class="col-sm-4">' + capitalize(FIRMS[idx]) + ': ' + 0 + ' <img src="img/icons/' + icons[FIRMS[idx] ] + '.png" class="icon-md"><br><br></div>';
+		tmpHTML += '<div class="col-sm-4">' + capitalize(FIRMS[idx]) + ': ' + getCountOfPlayerFirms(FIRMS[idx]) + getSprite(FIRMS[idx], 'md') + '<br><br></div>';
 	$('#player-firms').html(tmpHTML+'</div>');
 	// $('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');
 	// $('#player-firms').append('<br>TODO: pie chart for types of firms');
 	// $('#player-firms').append('<br>TODO: what the firm inputs and outputs');
+	// $('#player-firms').append('<br>TODO: list of all firms of that type, view their inventory and manage them, buy/sell, etc');
 
 	tmpHTML = '<div class="row">';
-	for(item in EMPTY_INVENTORY)
-		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + 0 + ' <img src="img/icons/' + icons[item] + '.png" class="icon-md"><br><br></div>';
+	for(item in player.inventory)
+		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + player.inventory[item] + getSprite(item, 'md') + '<br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
 	// $('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
 	// $('#player-inventory').append('<br>TODO: pie chart for types of resources');
 	// $('#player-inventory').append('<br>TODO: what firms produce or require this resource');
-});
+}
 
 function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';

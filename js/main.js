@@ -202,7 +202,9 @@ function start() {
 		newFirm();
 	}
 	display(AIs);
+	
 	setupPlayer();
+	drawPlayerUI();
 }
 
 // const MAX_FIRMS = 300;
