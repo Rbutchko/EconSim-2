@@ -92,7 +92,9 @@ function drawChart(avgPrices) {
 		vAxis: {
 			title: 'Price'
 		},
-		colors: RESOURCE_COLORS
+		colors: RESOURCE_COLORS,
+		backgroundColor: 'transparent',
+		gridlineColor: '#333'
 	};
 
 	let chart = new google.visualization.LineChart(document.getElementById('linechart') );
