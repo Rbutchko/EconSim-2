@@ -106,9 +106,7 @@ function displayPlayer() {
 	document.getElementById('player-display').innerHTML = tmpHTML;
 }
 
-function round(num, places=3) {
-	return Number( (num).toFixed(places) );
-}
+const round = (num, places=3) => Number( (num).toFixed(places) );
 
 const capitalizeEach = (str)=> {
 	let rtn = '';
@@ -119,6 +117,4 @@ const capitalizeEach = (str)=> {
 }
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-function formatBool(bool) {
-	return bool ? 'Yes' : 'No';
-}
+const formatBool = (bool)=> bool ? 'Yes' : 'No';

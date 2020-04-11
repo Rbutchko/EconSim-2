@@ -274,7 +274,7 @@ function tick(overridePause=false) {
 	//updates the current season
 	if(ticks % SEASON_LENGTH == 0) {
 		changeSeason();
-		console.log(currentSeason);
+		// console.log(currentSeason);
 	}
 	ticks++;
 	display(AIs);
