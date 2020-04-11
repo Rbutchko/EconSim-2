@@ -14,7 +14,7 @@
 	color: #933;
 }
 hr {
-	border-color: #ccc;
+	border: 1px solid #999;
 }
 .icon-sm {
 	width: 24px;
@@ -24,15 +24,3 @@ hr {
 	width: 48px;
 	margin: 4px;
 }
-
-/*.custom-control.custom-switch input[type=checkbox]::before,
-.custom-control.custom-switch input[type=checkbox]::after {
-	border-color: red !important;
-	background-color: red !important;
-}
-
-.custom-control.custom-switch input[type=checkbox]:checked::before,
-.custom-control.custom-switch input[type=checkbox]:checked::after {
-	border-color: orange !important;
-	background-color: orange !important;	
-}*/
