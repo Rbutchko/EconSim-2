@@ -117,6 +117,9 @@ class Firm {
 
 		let amountProduced = this.producedGoods[Object.keys(this.producedGoods)[0] ] + random(0, this.variance);
 		amountProduced *= 0.95 + 0.1*this.efficiency;
+			//adding season affect
+
+			amountProduced *= SEASONS[currentSeason][Object.keys(this.producedGoods)[0] ];
 
 		// amountProduced = Math.round(amountProduced);
 		amountProduced = Math.round(amountProduced) * 2;
@@ -258,7 +261,7 @@ function tick(overridePause=false) {
 		}
 	}
 
-	if(ticks % TRADE_INTERVAL == 0) {
+	if(ticks % TRADE_INTERVAL == 0) { //Can introduce sharding here by changing this to be a constant set in each firm, also change so firm inherits that as well as sell price
 		prevActivity = activity;
 		activity = 0;
 		// doTrades(AIs.filter(AI => AI && !AI.bankrupt) );
@@ -267,6 +270,11 @@ function tick(overridePause=false) {
 			if(AIs[i])
 				AIs[i].adjust();
 		}
+	}
+	//updates the current season
+	if(ticks % SEASON_LENGTH == 0) {
+		changeSeason();
+		console.log(currentSeason);
 	}
 	ticks++;
 	display(AIs);
