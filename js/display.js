@@ -52,7 +52,7 @@ function display(firms) {
 		avgPrices[resource].price = round(avgPrices[resource].sum / avgPrices[resource].count);
 		tmpHTML += getSprite(resource) + capitalize(resource) + ' : ' + avgPrices[resource].price + ' | ';
 	}
-	document.getElementById('prices').innerHTML = tmpHTML;
+	$('.prices').html(tmpHTML);
 	drawChart(avgPrices);
 
 	document.getElementById('ticks').innerHTML = ticks;
@@ -84,12 +84,12 @@ function display(firms) {
 		totalResources += totalInventory[item];
 	}
 	tmpHTML += 'Total: ' + totalResources;
-	document.getElementById('total-resources').innerHTML = tmpHTML;
+	$('.total-resources').html(tmpHTML);
 	tmpHTML = '';
 	for(type in firmTypes) {
 		tmpHTML += getSprite(type) + capitalize(type) + ': ' + firmTypes[type] + ' | ';
 	}
-	document.getElementById('firm-types').innerHTML = tmpHTML;
+	$('.firm-types').html(tmpHTML);
 
 	// displayPlayer();
 }
@@ -110,16 +110,14 @@ function round(num, places=3) {
 	return Number( (num).toFixed(places) );
 }
 
-function capitalizeEach(str) {
+const capitalizeEach = (str)=> {
 	let rtn = '';
 	str = str.split(' ');
 	for(let i=0; i<str.length; i++)
 		rtn += capitalize(str[i]) + ' ';
 	return rtn.slice(0,-1);
 }
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 function formatBool(bool) {
 	return bool ? 'Yes' : 'No';

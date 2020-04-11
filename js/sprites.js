@@ -1,3 +1,6 @@
+// SGI_46
+// SGI_177
+
 const icons = {
 	'money' : 'SGI_59',
 	'bread' : 'SGI_164',
