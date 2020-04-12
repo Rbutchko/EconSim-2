@@ -122,7 +122,7 @@ class Firm {
 			amountProduced *= SEASONS[currentSeason][Object.keys(this.producedGoods)[0] ];
 
 		// amountProduced = Math.round(amountProduced);
-		amountProduced = Math.round(amountProduced) * 2;
+		amountProduced = Math.round(amountProduced);
 
 		this.get(Object.keys(this.producedGoods)[0], amountProduced);
 		this.prevAmountProduced = amountProduced;
@@ -208,8 +208,9 @@ function start() {
 }
 
 // const MAX_FIRMS = 300;
-const MAX_FIRMS_PER_TYPE = 100;
-const MAX_FORESTERS = 10;
+//const MAX_FIRMS_PER_TYPE = 100;
+const MAX_LIMITER = 15;
+const LIMITER_TYPE = 'farm'
 
 // can be called with firm type, if not random firm type
 function newFirm(firmType, sellPrice=10) {
@@ -219,7 +220,7 @@ function newFirm(firmType, sellPrice=10) {
 	if(!firmType)
 		firmType = 'mine smith forester farm mill baker refinery mint'.split(' ')[random(0,7)];
 
-	if(getFirmCount('forester')>=MAX_FORESTERS && firmType == 'forester') // bobby's stupid logic for experiments
+	if(getFirmCount('farm')>=MAX_LIMITER && firmType == LIMITER_TYPE) //set whatever the limiter is here
 	// if(getFirmCount(firmType)>=MAX_FIRMS_PER_TYPE)
 		return false;
 

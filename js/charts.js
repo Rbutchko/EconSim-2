@@ -3,7 +3,7 @@
 google.charts.load('current', {packages:['corechart','line']});
 // google.charts.setOnLoadCallback(drawChart); // Do NOT do this, passes empty param and messes up variables
 
-const PRICE_GRAPH_SIZE = 20;
+const PRICE_GRAPH_SIZE = 100;
 let prevPrices = [];
 
 // shift cuts from beginning, push pushes to end
