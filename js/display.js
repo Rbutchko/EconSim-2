@@ -56,10 +56,10 @@ function display(firms) {
 	drawChart(avgPrices);
 
 	$('.ticks').html(ticks);
-	$('.firms').html(AIs.length);
+	$('.firms').html(AIs.length - numBankrupt);
 	$('.activity').html(activity +
 		' <i class="fas fa-arrow-' + (activity > prevActivity ? 'up' : 'down') + '"></i>');
-	$('.expand').html(firmsTryingToExpand + ' / ' + AIs.length);
+	$('.expand').html(firmsTryingToExpand + ' / ' + (AIs.length - numBankrupt));
 	$('.season').html(capitalize(getSeasonName(currentSeason) ) + ' ' + getSprite(getSeasonName(currentSeason) ) );
 
 

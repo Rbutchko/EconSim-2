@@ -15,7 +15,7 @@ window.onload = ()=> {
 		tick(true);
 	});
 }
-
+let numBankrupt = 0;
 let paused = false;
 // let paused = true;
 document.onkeydown = (evt)=> {
@@ -60,7 +60,6 @@ class Firm {
 		this.ticks++;
 
 		if( this.ticks % 14 == this.upkeepInterval) {
-			console.log(this.upkeepInterval);
 			this.payUpkeep();
 		}
 
@@ -86,6 +85,7 @@ class Firm {
 		}
 		else {
 			this.bankrupt = true;
+			numBankrupt++
 		}
 	}
 	doProduction() {
@@ -259,7 +259,7 @@ function tick(overridePause=false) {
 
 	for(let i=0; i<AIs.length; i++) {
 		if(AIs[i] && AIs[i].bankrupt) {
-			console.log('removed bankrupt AI of type', AIs[i].type() );
+			console.log('removed bankrupt AI of type', AIs[i].type() + ' making ', numBankrupt + ' bankrupt firms.');
 			AIs[i] = undefined;
 		}
 	}
