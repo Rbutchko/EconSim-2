@@ -7,8 +7,8 @@ class Mine extends Firm {
 
 		this.sell = {'ore': sellPrice}; // resource sold and its price
 
-		this.upkeepCost = {'tools': 5};
-		this.upkeepInterval = 19;
+		this.upkeepCost = {'tools': 3};
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 30, 'tools': 10}; // what it takes for this to produce
 		this.producedGoods = {'ore': 100}; // what this is producing
@@ -33,7 +33,7 @@ class Smith extends Firm {
 		this.sell = {'tools': sellPrice};
 
 		this.upkeepCost = {'bread': 10};
-		this.upkeepInterval = 9;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'metal': 15, 'lumber': 10};
 		this.producedGoods = {'tools': 20};
@@ -52,7 +52,7 @@ class Forester extends Firm {
 		this.sell = {'lumber': sellPrice};
 
 		this.upkeepCost = {'bread': 10, 'tools':1};
-		this.upkeepInterval = 12;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 10, 'tools': 5};
 		this.producedGoods = {'lumber': 10 };
@@ -71,7 +71,7 @@ class Farm extends Firm {
 		this.sell = {'wheat': sellPrice};
 
 		this.upkeepCost = { 'bread': 5, 'tools':1};
-		this.upkeepInterval = 17;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 10, 'tools': 2};
 		this.producedGoods = {'wheat': 300};
@@ -90,7 +90,7 @@ class Mill extends Firm {
 		this.sell = {'flour': sellPrice};
 
 		this.upkeepCost = {'bread': 5, 'tools':1};
-		this.upkeepInterval = 10;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'wheat': 200, 'bread':10};
 		this.producedGoods = {'flour': 150};
@@ -109,7 +109,7 @@ class Baker extends Firm {
 		this.sell = {'bread': sellPrice};
 
 		this.upkeepCost = {'lumber': 1, 'tools':1};
-		this.upkeepInterval = 18;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'flour': 40, 'lumber': 2};
 		this.producedGoods = {'bread': 100};
@@ -128,8 +128,8 @@ class Refinery extends Firm {
 		this.sell = {'metal': sellPrice};
 
 		this.upkeepCost = {'lumber': 1, 'tools':1};
-		this.upkeepInterval = 14;
-
+		this.upkeepInterval = random(1, 14);
+		
 		this.produceCost = {'bread':10, 'ore': 40};
 		this.producedGoods = {'metal': 30};
 		this.variance = 5;
@@ -150,7 +150,7 @@ class Mint extends Firm {
 		this.sell = {'money': 1}; // sells 1 money for 1 money... might want to change later...
 
 		this.upkeepCost = {'lumber': 1, 'tools':1};
-		this.upkeepInterval = 21;
+		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread':20, 'metal': 20};
 		this.producedGoods = {'money': 500};
