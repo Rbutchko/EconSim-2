@@ -220,7 +220,7 @@ function newFirm(firmType, sellPrice=10) {
 	if(!firmType)
 		firmType = 'mine smith forester farm mill baker refinery mint'.split(' ')[random(0,7)];
 
-	if(getFirmCount('farm')>=MAX_LIMITER && firmType == LIMITER_TYPE) //set whatever the limiter is here
+	if(getFirmCount(LIMITER_TYPE)>=MAX_LIMITER && firmType == LIMITER_TYPE) //set whatever the limiter is here
 	// if(getFirmCount(firmType)>=MAX_FIRMS_PER_TYPE)
 		return false;
 

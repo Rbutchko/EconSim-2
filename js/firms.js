@@ -18,7 +18,7 @@ class Mine extends Firm {
 		this.expandRequirement = {'bread': 360, 'tools': 120};
 
 		// resources necessary to expand
-		this.expandReady = {'money': 8000, 'bread': 400, 'tools': 180, 'lumber': 70};
+		this.expandReady = {'money': 8000, 'bread': 400, 'tools': 220, 'lumber': 70};
 
 		// resources deducted from inventory upon expansion
 		// note: this is less than expandReady so that firm doesn't go bankrupt upon expansion
@@ -40,7 +40,7 @@ class Smith extends Firm {
 		this.variance = 10;
 		
 		this.expandRequirement = {'metal': 180, 'lumber': 120};
-		this.expandReady = {'money': 6000, 'metal': 200, 'lumber': 140, 'bread': 100};
+		this.expandReady = {'money': 6000, 'metal': 200, 'lumber': 140, 'bread': 160};
 		this.expandCost = {'money': 3000, 'metal': 110, 'lumber': 80, 'bread': 60};
 	}
 }
@@ -59,7 +59,7 @@ class Forester extends Firm {
 		this.variance = 5;
 
 		this.expandRequirement = {'bread': 160, 'tools': 80};
-		this.expandReady = {'money': 6000, 'bread': 180, 'tools': 90};
+		this.expandReady = {'money': 6000, 'bread': 300, 'tools': 110};
 		this.expandCost = {'money': 3000, 'bread': 100, 'tools': 50};
 	}
 }
@@ -78,7 +78,7 @@ class Farm extends Firm {
 		this.variance = 100;
 
 		this.expandRequirement = {'bread': 110, 'tools': 40};
-		this.expandReady = {'money': 4000, 'bread': 160, 'tools': 50, 'lumber': 30};
+		this.expandReady = {'money': 4000, 'bread': 180, 'tools': 70, 'lumber': 30};
 		this.expandCost = {'money': 2000, 'bread': 80, 'tools': 30, 'lumber': 30};
 	}
 }
@@ -97,7 +97,7 @@ class Mill extends Firm {
 		this.variance = 25;
 
 		this.expandRequirement = {'wheat': 2400, 'bread': 100};
-		this.expandReady = {'money': 6000, 'bread': 200, 'wheat': 2400, 'tools': 10, 'lumber': 30};
+		this.expandReady = {'money': 6000, 'bread': 200, 'wheat': 2400, 'tools': 50, 'lumber': 30};
 		this.expandCost = {'money': 3000, 'wheat': 1200, 'bread': 120, 'tools': 15, 'lumber': 30};
 	}
 }
@@ -116,7 +116,7 @@ class Baker extends Firm {
 		this.variance = 20;
 
 		this.expandRequirement = {'flour': 480, 'lumber': 50};
-		this.expandReady = {'money': 8000, 'flour':480, 'bread': 100, 'tools': 40, 'lumber': 80};
+		this.expandReady = {'money': 8000, 'flour':480, 'bread': 100, 'tools': 70, 'lumber': 100};
 		this.expandCost = {'money': 4000, 'bread': 80, 'tools': 30, 'lumber': 50};
 	}
 }
@@ -127,7 +127,7 @@ class Refinery extends Firm {
 
 		this.sell = {'metal': sellPrice};
 
-		this.upkeepCost = {'lumber': 1, 'tools':1};
+		this.upkeepCost = {'lumber': 2, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 		
 		this.produceCost = {'bread':10, 'ore': 40};
@@ -135,7 +135,7 @@ class Refinery extends Firm {
 		this.variance = 5;
 
 		this.expandRequirement = {'bread': 120, 'ore': 480};
-		this.expandReady = {'money': 6000, 'bread': 140, 'ore': 480, 'tools': 40, 'lumber': 60};
+		this.expandReady = {'money': 6000, 'bread': 140, 'ore': 480, 'tools': 50, 'lumber': 70};
 		this.expandCost = {'money': 3000, 'bread': 80, 'ore': 240, 'tools': 30, 'lumber': 50};
 	}
 }
@@ -157,7 +157,7 @@ class Mint extends Firm {
 		this.variance = 50;
 
 		this.expandRequirement = {'bread': 240, 'metal': 220};
-		this.expandReady = {'money': 8000, 'bread': 260, 'tools': 30, 'metal': 220, 'lumber': 40};
+		this.expandReady = {'money': 8000, 'bread': 260, 'tools': 35, 'metal': 220, 'lumber': 50};
 		this.expandCost = {'money': 4000, 'bread': 140, 'tools': 20, 'metal': 120, 'lumber': 30};
 	}
 }
