@@ -7,12 +7,14 @@ class Mine extends Firm {
 
 		this.sell = {'ore': sellPrice}; // resource sold and its price
 
+		this.productionOrder = 'auto';
+
 		this.upkeepCost = {'tools': 3};
-		this.upkeepInterval = random(1, 14);
+		this.upkeepInterval = random(1, 14); 
 
 		this.produceCost = {'bread': 30, 'tools': 10}; // what it takes for this to produce
-		this.producedGoods = {'ore': 100}; // what this is producing
-		this.variance = 15; // amount production will vary from the value set in producedGoods
+		this.producedGoods = {'ore': 110}; // what this is producing
+		this.variance = 20; // amount production will vary from the value set in producedGoods
 
 		// requirement before firm starting trying to accumulate resources necessary to expand
 		this.expandRequirement = {'bread': 360, 'tools': 120};
@@ -31,6 +33,9 @@ class Smith extends Firm {
 		super({'money': 3000, 'metal': 90, 'lumber': 60, 'bread': 40});
 
 		this.sell = {'tools': sellPrice};
+
+		
+		this.productionOrder = 'auto';
 
 		this.upkeepCost = {'bread': 10};
 		this.upkeepInterval = random(1, 14);
@@ -51,11 +56,14 @@ class Forester extends Firm {
 
 		this.sell = {'lumber': sellPrice};
 
+		
+		this.productionOrder = 'auto';
+
 		this.upkeepCost = {'bread': 10, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 10, 'tools': 5};
-		this.producedGoods = {'lumber': 10 };
+		this.producedGoods = {'lumber': 30 };
 		this.variance = 5;
 
 		this.expandRequirement = {'bread': 160, 'tools': 80};
@@ -69,6 +77,9 @@ class Farm extends Firm {
 		super({'money': 2000, 'bread': 80, 'tools': 20});
 
 		this.sell = {'wheat': sellPrice};
+
+		
+		this.productionOrder = 'auto';
 
 		this.upkeepCost = { 'bread': 5, 'tools':1};
 		this.upkeepInterval = random(1, 14);
@@ -89,6 +100,10 @@ class Mill extends Firm {
 		
 		this.sell = {'flour': sellPrice};
 
+		
+		this.productionOrder = 'auto';
+
+
 		this.upkeepCost = {'bread': 5, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
@@ -107,6 +122,9 @@ class Baker extends Firm {
 		super({'money': 4000, 'bread': 20,'flour': 240, 'tools': 10, 'lumber': 30});
 
 		this.sell = {'bread': sellPrice};
+
+		
+		this.productionOrder = 'auto';
 
 		this.upkeepCost = {'lumber': 1, 'tools':1};
 		this.upkeepInterval = random(1, 14);
@@ -127,10 +145,13 @@ class Refinery extends Firm {
 
 		this.sell = {'metal': sellPrice};
 
-		this.upkeepCost = {'lumber': 2, 'tools':1};
+		
+		this.productionOrder = 'auto';
+
+		this.upkeepCost = {'lumber': 3, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 		
-		this.produceCost = {'bread':10, 'ore': 40};
+		this.produceCost = {'bread':10, 'ore': 50};
 		this.producedGoods = {'metal': 30};
 		this.variance = 5;
 
@@ -149,12 +170,15 @@ class Mint extends Firm {
 
 		this.sell = {'money': 1}; // sells 1 money for 1 money... might want to change later...
 
-		this.upkeepCost = {'lumber': 1, 'tools':1};
+		
+		this.productionOrder = 'auto';
+
+		this.upkeepCost = {'lumber': 2, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread':20, 'metal': 20};
-		this.producedGoods = {'money': 500};
-		this.variance = 50;
+		this.producedGoods = {'money': 1000};
+		this.variance = 100;
 
 		this.expandRequirement = {'bread': 240, 'metal': 220};
 		this.expandReady = {'money': 8000, 'bread': 260, 'tools': 35, 'metal': 220, 'lumber': 50};

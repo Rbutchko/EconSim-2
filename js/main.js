@@ -46,6 +46,7 @@ class Firm {
 
 		this.ticks = 0;
 		this.bankrupt = false;
+		this.shouldBuyUpkeep = false; 		 // a flag that we set to true if they must pay upkeep
 
 		this.prevAmountProduced = 0;
 		this.prevAmountSold = 0;
@@ -59,13 +60,17 @@ class Firm {
 		this.prevAmountSold = 0;
 		this.ticks++;
 
-		if( this.ticks % 14 == this.upkeepInterval) {
-			this.payUpkeep();
-		}
+		productionStrat(this);
+
+		/* if (this.productionOrder == 'off') { 
+			// might be able to work out a similar solution to stop player owned firms from trading, must be careful they still payupkeep
+			// break;
+			console.log('this definitely shouldnt run right now, seeing how firms being off isnt a thing yet');
+		} */
 
 		this.doProduction();
 
-		if(this.hasAll(this.expandReady) ) {
+		if(this.hasAll(this.expandReady) && this.productionOrder == 'auto') {
 			this.payAll(this.expandCost);
 			newFirm(this.type(), this.sell[Object.keys(this.sell)[0] ]); // type and sell price
 			this.timesExpanded++;
@@ -73,28 +78,25 @@ class Firm {
 
 		// it should already have all other resources in expandReady before saving money
 		// money is last step
-		if(this.hasAll(this.expandRequirement) && this.hasAll(this.expandReady) ) {
+		if(this.hasAll(this.expandRequirement) && this.hasAll(this.expandReady) && this.productionOrder == 'auto' ) {
 			this.moneyToSave = this.expandReady['money'] || 0;
 		} else {
 			this.moneyToSave = 0;
 		}
-	}
-	payUpkeep() {
-		if(this.hasUpkeep() ) {
-			this.payAll(this.upkeepCost);
-		}
-		else {
-			this.bankrupt = true;
-			numBankrupt++
-		}
-	}
-	doProduction() {
-		if(!this.hasAll(this.produceCost) )
-			return;
 
-		if(this.hasAll(this.expandRequirement) ) {
+		if( this.ticks % 14 == this.upkeepInterval) {
+			payUpkeep(this);
+		}
+	}
+
+	doProduction() {
+		if(!this.hasAll(this.produceCost) ) {
+		return; }
+
+		if(this.hasAll(this.expandRequirement) && this.productionOrder == 'auto')  {
 			// if it's trying to expand but
 			// can't produce and have enough leftover to get to expandReady, return
+			//this also makes sure that the firm is an AI, and should be automatically expanding
 
 			// for each resource in expandReady
 			// if produceCost has that resource
@@ -102,6 +104,7 @@ class Firm {
 			// else return
 			for(resource in this.expandReady) {
 				if(this.produceCost[resource]) {
+					console.log(this.inventory[resource], this.produceCost[resource], this.expandReady[resource]);
 					if(this.inventory[resource] < this.produceCost[resource] + this.expandReady[resource]) {
 						return;
 					}
@@ -109,23 +112,26 @@ class Firm {
 			}
 		}
 
+
 		// -------- --------
 
 		for(let resource in this.produceCost) {
 			this.pay(resource, this.produceCost[resource]);
+			console.log(this.produceCost[resource]);
 		}
 
 		let amountProduced = this.producedGoods[Object.keys(this.producedGoods)[0] ] + random(0, this.variance);
 		amountProduced *= 0.95 + 0.1*this.efficiency;
 			//adding season affect
 
-			amountProduced *= SEASONS[currentSeason][Object.keys(this.producedGoods)[0] ];
+		amountProduced *= SEASONS[currentSeason][Object.keys(this.producedGoods)[0] ]; // adding the seasons effect
 
-		// amountProduced = Math.round(amountProduced);
 		amountProduced = Math.round(amountProduced);
 
 		this.get(Object.keys(this.producedGoods)[0], amountProduced);
 		this.prevAmountProduced = amountProduced;
+
+		checkShouldBuyUpkeep(this);
 	}
 	adjust() {
 		// can edit function so seller prefers to not sell and save resources for later
@@ -274,6 +280,7 @@ function tick(overridePause=false) {
 				AIs[i].adjust();
 		}
 	}
+	
 	ticks++;
 	//updates the current season
 	if(ticks % SEASON_LENGTH == 0) {
