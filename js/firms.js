@@ -107,9 +107,9 @@ class Mill extends Firm {
 		this.upkeepCost = {'bread': 5, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
-		this.produceCost = {'wheat': 200, 'bread':10};
-		this.producedGoods = {'flour': 150};
-		this.variance = 25;
+		this.produceCost = {'wheat': 400, 'bread':10};
+		this.producedGoods = {'flour': 300};
+		this.variance = 50;
 
 		this.expandRequirement = {'wheat': 2400, 'bread': 100};
 		this.expandReady = {'money': 6000, 'bread': 200, 'wheat': 2400, 'tools': 50, 'lumber': 30};

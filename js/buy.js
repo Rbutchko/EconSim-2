@@ -113,7 +113,9 @@ function doBuy(firm, purchaseCosts) {
 		else {
 			buyResources(firm, purchaseCosts, firm.expandReady, 'expand');
 		}
-		// return; //todo remove this
+		// if losing money on a sell price, reset the sell price to break even
+			console.log('I cant afford this! ' + firm.type() );
+			// return;
 
 	}
 
