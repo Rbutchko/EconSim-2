@@ -14,7 +14,9 @@ body {
 }
 .col-sm-6 {
 	border: 1px solid #666;
-	border-radius: 10px;
+	/*border-radius: 10px;*/
+	background-color: rgba(255,255,255,0.6);
+	padding: 16px;
 }
 .fa-arrow-up {
 	color: #393;
@@ -24,6 +26,13 @@ body {
 }
 hr {
 	border: 1px solid #999;
+}
+.icon-xs, .icon-sm, .icon-md, .icon-lg {
+	/*border: 2px solid #333;*/
+}
+.icon-md, .icon-lg {
+	box-shadow: 4px 4px 0px #333;
+	margin-right: 6px;
 }
 .icon-xs {
 	width: 24px;
