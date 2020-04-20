@@ -27,17 +27,21 @@ hr {
 }
 .icon-xs {
 	width: 24px;
+	border-radius: 3px;
 }
 .icon-sm {
 	margin-right: 2px;
 	width: 32px;
+	border-radius: 4px;
 }
 .icon-md {
 	margin: 4px;
 	width: 48px;
+	border-radius: 6px;
 }
 .icon-lg {
 	width: 64px;
+	border-radius: 8px;
 }
 #trade-table td {
 	padding: 8px;

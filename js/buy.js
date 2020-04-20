@@ -44,6 +44,7 @@ function buyResources(firm, purchaseCosts, resources, message) {
 			amountToBuy = Math.max(resources[resource] - firm.inventory[resource], 0);
 			// limit to double expandReady of resource. note that expandReady minus expandCost must be greater than upkeepCost
 			// otherwise a firm that is expanding could be prevented from purhcasing its upkeep cost, then expand, then go bankrupt 
+			// should below be commented out?
 			amountToBuy = Math.min(resources[resource] - firm.inventory[resource], firm.expandReady[resource]*2);
 
 			let resourceInfo = purchaseCosts[resource][0];
@@ -147,7 +148,7 @@ function doBuy(firm, purchaseCosts) {
 		let sellPrice = firm.sell[Object.keys(firm.sell)[0] ];
 		let amountProduced = Object.values(firm.producedGoods)[0];
 		if(costPerProduce > 2*sellPrice*amountProduced) { // if losing more than 2x as much
-			// return;
+			// return; // should this be commented?...
 		}
 
 		let amountCanProduce = Math.floor(moneyAvailable / costPerProduce);
