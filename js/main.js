@@ -137,14 +137,21 @@ class Firm {
 		// can edit function so seller prefers to not sell and save resources for later
 		let sellResource = Object.keys(this.sell)[0];
 		// console.log(this.prevAmountProduced, this.prevAmountSold);
+
+		
+		let factor = this.prevAmountSold / this.prevAmountProduced;
+		this.sell[sellResource] = Math.round(this.sell[sellResource] * (factor + 1)/2 );
+
+		/*
 		if(this.prevAmountProduced > this.prevAmountSold) { // produced more that 2 * sold
 			this.sell[sellResource] -= 1;
 			//console.log("I sold!");
 		} else {
 			// console.log('goin up');
 			let factor = this. prevAmountSold / this.prevAmountProduced;
-			this.sell[sellResource] += Math.round(factor + 1); // it should be the greater of 1 or 1% of price. must use rounding if so
-		}
+			this.sell[sellResource] += Math.round(factor + 1); //maybe instead of + 1, it should be factor * 10% of price, or if price is 1, factor + 1?
+		}*/
+
 		this.sell[sellResource] = Math.max(1, this.sell[sellResource]);
 
 		this.forSale = this.inventory[sellResource] - (this.upkeepCost[sellResource] || 0);
