@@ -1,4 +1,4 @@
-function display(firms) {
+function display(firms, doDrawChart=false) {
 	let tmpHTML = '';
 
 	let avgPrices = {};
@@ -53,7 +53,9 @@ function display(firms) {
 		tmpHTML += getSprite(resource) + capitalize(resource) + ' : ' + avgPrices[resource].price + ' | ';
 	}
 	$('.prices').html(tmpHTML);
-	drawChart(avgPrices);
+	if(doDrawChart) {
+		drawChart(avgPrices);
+	}
 
 	$('.ticks').html(ticks);
 	$('.firms').html(AIs.length - numBankrupt);

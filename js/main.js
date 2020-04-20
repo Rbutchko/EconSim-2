@@ -226,7 +226,7 @@ function start() {
 	for(let i=0; i<startFirms; i++) {
 		newFirm();
 	}
-	display(AIs);
+	display(AIs, true);
 	
 	setupPlayer();
 	drawPlayerUI();
@@ -306,7 +306,7 @@ function tick(overridePause=false) {
 		changeSeason();
 		// console.log(currentSeason);
 	}
-	display(AIs);
+	display(AIs, ticks%TRADE_INTERVAL==0);
 }
 
 // Utility
