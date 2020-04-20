@@ -16,8 +16,13 @@ let player;
 function setupPlayer() {
 	player = {};
 	player.firms = [];
-	player.firms[0] = new Smith();
 	player.inventory = Object.assign({}, EMPTY_INVENTORY); // shallow clone
+
+	player.firms[0] = new Smith();
+	player.firms[0].inventory = player.inventory;
+	player.firms[0].productionOrder = 'on';
+	AIs.push(player.firms[0]);
+
 
 	// test that shallow clone works:
 	player.inventory.money = 200;

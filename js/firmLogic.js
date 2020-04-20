@@ -2,24 +2,24 @@
 
 function productionStrat(firm) { // and the firm would also be an argument
 	switch(firm.productionOrder) {
-    	case 'on':
-    	console.log('here a firm would act normally but not check to reproduce or do trading');
-    	firm.productionOrder = 'on';
-    	break;
+		case 'on':
+			console.log('here a firm would act normally but not check to reproduce or do trading');
+			firm.productionOrder = 'on';
+			break;
 
-    	case 'off':
-    	// firm will do nothing and not pay upkeep 
-    	console.log('firm would do nothing'); 
-    	firm.productionOrder = 'off';
-    	break;
+		case 'off':
+			// firm will do nothing and not pay upkeep
+			console.log('firm would do nothing');
+			firm.productionOrder = 'off';
+			break;
 
-    	default: // why isn't this recognising null when I call it with that argument in the paramater
-    	firm.productionOrder = 'auto';
-    	console.log('This firm is an AI ' +  firm.productionOrder);
-    	// console.log('This firm is an AI, so it would follow all AI procedures. here we would call doProduction and trade and upkeep etc.');
+		default: // why isn't this recognising null when I call it with that argument in the paramater
+			firm.productionOrder = 'auto';
+			console.log('This firm is an AI ' +  firm.productionOrder);
+			// console.log('This firm is an AI, so it would follow all AI procedures. here we would call doProduction and trade and upkeep etc.');
 
-    	/* we could also semi-easily create a case where a firm does half its production for like .6 * the resources,
-    	or potentially produce more output for higher input costs (again loosing efficency). that would simulate a real life production curve*/
+		/* we could also semi-easily create a case where a firm does half its production for like .6 * the resources,
+		or potentially produce more output for higher input costs (again loosing efficency). that would simulate a real life production curve*/
 	}
 }
 
@@ -38,14 +38,14 @@ function checkShouldBuyUpkeep(firm) { // sets a flag if this tick a firm shouldB
 		}
 }
 
-	function payUpkeep(firm) { // this code deducts upkeep costs and resets the shouldBuyUpkeep flag if the firm can pay, if it can't it sets bankrupt to true
-		console.log('paying upkeep');
-		if(firm.hasUpkeep() ) {
-			firm.payAll(firm.upkeepCost);
-			firm.shouldBuyUpkeep = false;
-		}
-		else {
-			firm.bankrupt = true;
-			numBankrupt++;
-		}
+function payUpkeep(firm) { // this code deducts upkeep costs and resets the shouldBuyUpkeep flag if the firm can pay, if it can't it sets bankrupt to true
+	console.log('paying upkeep');
+	if(firm.hasUpkeep() ) {
+		firm.payAll(firm.upkeepCost);
+		firm.shouldBuyUpkeep = false;
 	}
+	else {
+		firm.bankrupt = true;
+		numBankrupt++;
+	}
+}

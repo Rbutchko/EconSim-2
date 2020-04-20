@@ -78,7 +78,7 @@ function drawChart(avgPrices) {
 		let tmp = [i];
 		for(resource of RESOURCE_TYPES) {
 			if(! $('#'+resource+'-check').is(':checked') ) continue;
-			tmp.push(prevPrices[i][resource].price);
+			tmp.push(prevPrices[i][resource].price); // bug: prevPrices[i][resource] is sometimes undefined
 		}
 		rows.push(tmp);
 	}

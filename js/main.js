@@ -62,11 +62,11 @@ class Firm {
 
 		productionStrat(this);
 
-		/* if (this.productionOrder == 'off') { 
+		if (this.productionOrder == 'off') {
+			console.warn('production order for firm', this.type(), 'is off');
 			// might be able to work out a similar solution to stop player owned firms from trading, must be careful they still payupkeep
-			// break;
-			console.log('this definitely shouldnt run right now, seeing how firms being off isnt a thing yet');
-		} */
+			return;
+		}
 
 		this.doProduction();
 
@@ -78,13 +78,13 @@ class Firm {
 
 		// it should already have all other resources in expandReady before saving money
 		// money is last step
-		if(this.hasAll(this.expandRequirement) && this.hasAll(this.expandReady) && this.productionOrder == 'auto' ) {
+		if(this.hasAll(this.expandRequirement) && this.hasAll(this.expandReady) && this.productionOrder == 'auto') {
 			this.moneyToSave = this.expandReady['money'] || 0;
 		} else {
 			this.moneyToSave = 0;
 		}
 
-		if( this.ticks % 14 == this.upkeepInterval) {
+		if(this.ticks % 14 == this.upkeepInterval) {
 			payUpkeep(this);
 		}
 	}
