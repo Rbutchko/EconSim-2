@@ -7,9 +7,9 @@ $( ()=> {
 function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
 	for(firm of FIRMS) {
-		console.log(firm);
+		// console.log(firm);
 		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' + getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
-		console.log(firm);
+		// console.log(firm);
 	}
 	$('#player-firms').html(tmpHTML+'</div>');
 	// $('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');

@@ -104,7 +104,7 @@ class Firm {
 			// else return
 			for(resource in this.expandReady) {
 				if(this.produceCost[resource]) {
-					console.log(this.inventory[resource], this.produceCost[resource], this.expandReady[resource]);
+					// console.log(this.inventory[resource], this.produceCost[resource], this.expandReady[resource]);
 					if(this.inventory[resource] < this.produceCost[resource] + this.expandReady[resource]) {
 						return;
 					}
@@ -117,7 +117,7 @@ class Firm {
 
 		for(let resource in this.produceCost) {
 			this.pay(resource, this.produceCost[resource]);
-			console.log(this.produceCost[resource]);
+			// console.log(this.produceCost[resource]);
 		}
 
 		let amountProduced = this.producedGoods[Object.keys(this.producedGoods)[0] ] + random(0, this.variance);
@@ -128,7 +128,7 @@ class Firm {
 
 		amountProduced = Math.round(amountProduced);
 
-		this.get(Object.keys(this.producedGoods)[0], amountProduced);
+		this.gain(Object.keys(this.producedGoods)[0], amountProduced);
 		this.prevAmountProduced = amountProduced;
 
 		checkShouldBuyUpkeep(this);
@@ -178,6 +178,14 @@ class Firm {
 		}
 		return true;
 	}
+	hasAny(resources) {
+		for(let resource in resources) {
+			if(this.inventory[resource] >= resources[resource]) {
+				return true;
+			}
+		}
+		return false;
+	}
 	hasExpand() {
 		return this.hasAll(this.expandRequirement);
 	}
@@ -193,8 +201,13 @@ class Firm {
 			this.inventory[resource] -= resources[resource];
 		}
 	}
-	get(resource, amount) {
+	gain(resource, amount) {
 		this.inventory[resource] += amount;
+	}
+	gainAll(resources) {
+		for(resource in resources) {
+			this.inventory[resource] += resources[resource];
+		}
 	}
 	type() {
 		return this.constructor.name.toLowerCase();

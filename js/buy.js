@@ -72,7 +72,7 @@ function buyResources(firm, purchaseCosts, resources, message) {
 			// }
 
 			// seller, buyer, resource, amount
-			console.warn('calling doTrade from buyResources');
+			// console.log('calling doTrade from buyResources');
 			doTrade(seller, firm, resource, tmpAmountToBuy);
 			
 			// below line commented because we already (should) account for the resources we've aquired
@@ -98,14 +98,10 @@ function buyResources(firm, purchaseCosts, resources, message) {
 const MAX_PRODUCE_BUY = 6;
 
 function doBuy(firm, purchaseCosts) {
-	// if(false) {
 	if(!firm.hasUpkeep() ) {
 		buyResources(firm, purchaseCosts, firm.upkeepCost, 'upkeep');
 	}
-	// if(false) {
 	if(firm.hasExpand() ) {
-		// console.log('tryin to expand a', firm.type() );
-
 		// note: doesn't attempt to buy resource it produces
 		let sellResource = Object.keys(firm.sell)[0];
 		if(sellResource in firm.expandReady) {
@@ -114,10 +110,6 @@ function doBuy(firm, purchaseCosts) {
 		else {
 			buyResources(firm, purchaseCosts, firm.expandReady, 'expand');
 		}
-		// if losing money on a sell price, reset the sell price to break even
-			console.log('I cant afford this! ' + firm.type() );
-			// return;
-
 	}
 
 	let input1 = Object.keys(firm.produceCost)[0];
@@ -192,7 +184,7 @@ function doBuy(firm, purchaseCosts) {
 
 		// complete transaction
 		// seller, buyer, resource, amount
-		console.warn('calling doTrade from doBuy');
+		// console.log('calling doTrade from doBuy');
 		doTrade(seller1, firm, input1, input1toBuy);
 		doTrade(seller2, firm, input2, input2toBuy);
 
