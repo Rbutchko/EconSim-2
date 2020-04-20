@@ -1,6 +1,12 @@
 body {
 	background-image: url('../img/bg-transparent.png');
 }
+::-moz-selection {
+	background: #ccc;
+}
+::selection {
+	background: #ccc;
+}
 .progressbar {
 	background-color: #333;
 	height: 5px;
