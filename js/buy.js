@@ -73,7 +73,7 @@ function buyResources(firm, purchaseCosts, resources, message) {
 			// }
 
 			// seller, buyer, resource, amount
-			// console.log('calling doTrade from buyResources');
+			console.log('calling doTrade from buyResources');
 			doTrade(seller, firm, resource, tmpAmountToBuy);
 			
 			// below line commented because we already (should) account for the resources we've aquired
@@ -185,7 +185,7 @@ function doBuy(firm, purchaseCosts) {
 
 		// complete transaction
 		// seller, buyer, resource, amount
-		// console.log('calling doTrade from doBuy');
+		console.log('calling doTrade from doBuy');
 		doTrade(seller1, firm, input1, input1toBuy);
 		doTrade(seller2, firm, input2, input2toBuy);
 
