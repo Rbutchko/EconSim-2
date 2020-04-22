@@ -7,7 +7,7 @@ class Mine extends Firm {
 
 		this.sell = {'ore': sellPrice}; // resource sold and its price
 
-		this.productionOrder = 'auto';
+		
 
 		this.upkeepCost = {'tools': 3};
 		this.upkeepInterval = random(1, 14); 
@@ -34,9 +34,6 @@ class Smith extends Firm {
 
 		this.sell = {'tools': sellPrice};
 
-		
-		this.productionOrder = 'auto';
-
 		this.upkeepCost = {'bread': 10};
 		this.upkeepInterval = random(1, 14);
 
@@ -55,9 +52,6 @@ class Forester extends Firm {
 		super({'money': 3000, 'bread': 80, 'tools': 40});
 
 		this.sell = {'lumber': sellPrice};
-
-		
-		this.productionOrder = 'auto';
 
 		this.upkeepCost = {'bread': 10, 'tools':1};
 		this.upkeepInterval = random(1, 14);
@@ -78,9 +72,6 @@ class Farm extends Firm {
 
 		this.sell = {'wheat': sellPrice};
 
-		
-		this.productionOrder = 'auto';
-
 		this.upkeepCost = { 'bread': 5, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
@@ -99,10 +90,6 @@ class Mill extends Firm {
 		super({'money': 3000, 'bread': 80, 'wheat': 1200, 'tools': 10});
 		
 		this.sell = {'flour': sellPrice};
-
-		
-		this.productionOrder = 'auto';
-
 
 		this.upkeepCost = {'bread': 5, 'tools':1};
 		this.upkeepInterval = random(1, 14);
@@ -123,9 +110,6 @@ class Baker extends Firm {
 
 		this.sell = {'bread': sellPrice};
 
-		
-		this.productionOrder = 'auto';
-
 		this.upkeepCost = {'lumber': 1, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
@@ -144,9 +128,6 @@ class Refinery extends Firm {
 		super({'money': 3000, 'bread': 60, 'tools': 5, 'ore': 240, 'tools': 10,'lumber': 10,});
 
 		this.sell = {'metal': sellPrice};
-
-		
-		this.productionOrder = 'auto';
 
 		this.upkeepCost = {'lumber': 3, 'tools':1};
 		this.upkeepInterval = random(1, 14);
@@ -168,16 +149,13 @@ class Mint extends Firm {
 	constructor(sellPrice) {
 		super({'money': 4000, 'bread': 120, 'tools': 10, 'metal': 120, 'lumber': 10,});
 
-		this.sell = {'money': 1}; // sells 1 money for 1 money... might want to change later...
-
-		
-		this.productionOrder = 'auto';
+		this.sell = {'money': 1}; // sells 1 money for 1 money... might want to change later...	
 
 		this.upkeepCost = {'lumber': 2, 'tools':1};
 		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread':20, 'metal': 20};
-		this.producedGoods = {'money': 1000};
+		this.producedGoods = {'money': 1250};
 		this.variance = 100;
 
 		this.expandRequirement = {'bread': 240, 'metal': 220};

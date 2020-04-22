@@ -44,6 +44,8 @@ class Firm {
 		this.firmNum = currentFirmNum++;
 		this.efficiency = normal01();
 
+		this.productionOrder = 'auto';
+
 		this.ticks = 0;
 		this.bankrupt = false;
 		this.shouldBuyUpkeep = false; 		 // a flag that we set to true if they must pay upkeep
@@ -139,10 +141,10 @@ class Firm {
 		// console.log(this.prevAmountProduced, this.prevAmountSold);
 
 		
-		let factor = this.prevAmountSold / this.prevAmountProduced;
+		/* let factor = this.prevAmountSold / this.prevAmountProduced;
 		this.sell[sellResource] = Math.round(this.sell[sellResource] * (factor + 1)/2 );
+		*/
 
-		/*
 		if(this.prevAmountProduced > this.prevAmountSold) { // produced more that 2 * sold
 			this.sell[sellResource] -= 1;
 			//console.log("I sold!");
@@ -150,7 +152,7 @@ class Firm {
 			// console.log('goin up');
 			let factor = this. prevAmountSold / this.prevAmountProduced;
 			this.sell[sellResource] += Math.round(factor + 1); //maybe instead of + 1, it should be factor * 10% of price, or if price is 1, factor + 1?
-		}*/
+		}
 
 		this.sell[sellResource] = Math.max(1, this.sell[sellResource]);
 
@@ -234,7 +236,7 @@ function start() {
 
 // const MAX_FIRMS = 300;
 //const MAX_FIRMS_PER_TYPE = 100;
-const MAX_LIMITER = 15;
+const MAX_LIMITER = 10;
 const LIMITER_TYPE = 'farm'
 
 // can be called with firm type, if not random firm type
