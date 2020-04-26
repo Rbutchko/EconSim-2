@@ -1,0 +1,25 @@
+todo3
+
+UI ideas
+	you focus on a firm or resource and it opens it
+		flavor on bottom
+			quote marks, light text, italic
+		displays details such as price etc
+		focused item has light blue bottom border
+	splitting the entire thing into just player and economoy as a whole, just 2 parts
+	adding trading to resources, making it a modal instead of separate tab
+	work on mobile display more too
+
+Fix bugs
+	NaN bug seemingly in trading
+
+Trading overhaul
+	implementing order object system
+
+Adding player
+	they set buy and sell and their firms run as normal, option to buy a new firm for their expand costs
+
+add locations
+	oh boy
+
+backend
