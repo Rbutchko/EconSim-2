@@ -1,5 +1,13 @@
 body {
-	background-image: url('../img/bg-transparent.png');
+	/*background-image: url('../img/bg-transparent.png');*/
+
+	/*https://leaverou.github.io/css3patterns/#lined-paper*/
+	background-color: #fff;
+	background-image:
+	linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+	linear-gradient(#eee .1em, transparent .1em);
+	background-size: 100% 1.2em;
+
 }
 ::-moz-selection {
 	background: #ccc;
@@ -57,4 +65,11 @@ hr {
 	padding: 8px;
 	padding-top: 4px;
 	padding-bottom: 4px;
+}
+
+.nav-tabs {
+	border-bottom: 2px solid #666;
+}
+.nav-link.active {
+	border-bottom: 3px solid #abced4 !important;
 }
