@@ -55,6 +55,7 @@ function display(firms, doDrawChart=false) {
 	$('.prices').html(tmpHTML);
 	if(doDrawChart) {
 		drawChart(avgPrices);
+		drawActivityChart(activity);
 	}
 
 	$('.ticks').html(ticks);
