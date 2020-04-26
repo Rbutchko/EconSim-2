@@ -78,3 +78,14 @@ summary {
 	font-size: 150% !important;
 	margin-bottom: 16px;
 }
+
+html {
+	scroll-behavior: smooth;
+}
+#top-btn {
+	display: none;
+	position: fixed;
+	bottom: 25px;
+	right: 25px;
+	z-index: 99;
+}

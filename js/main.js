@@ -14,7 +14,22 @@ window.onload = ()=> {
 	$('#tick-btn').click( ()=> {
 		tick(true);
 	});
+	$('#top-btn').click( ()=> {
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTop = 0;
+	});
 }
+
+// When the user scrolls down 100px from the top of the document, show the button
+window.onscroll = function() {
+	if(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+		$('#top-btn').fadeIn();
+	}
+	else {
+		$('#top-btn').fadeOut();
+	}
+};
+
 let numBankrupt = 0;
 let paused = false;
 // let paused = true;
