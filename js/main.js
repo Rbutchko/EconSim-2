@@ -18,6 +18,10 @@ window.onload = ()=> {
 		document.body.scrollTop = 0;
 		document.documentElement.scrollTop = 0;
 	});
+	$('.buy-sell-switch').change( (evt)=> {
+		let isChecked = $(evt.target).is(':checked');
+		$(evt.target).parent().find('label').html(isChecked ? 'Sell' : 'Buy');
+	})
 }
 
 // When the user scrolls down 100px from the top of the document, show the button

@@ -34,12 +34,12 @@ function fillPlayerInputTable() {
 			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-sm"></td>' +
 			'<td>' +
 				'<div class="custom-control custom-switch">' +
-					'<input type="checkbox" class="custom-control-input" id="' + item + '-switch">' +
+					'<input type="checkbox" class="custom-control-input buy-sell-switch" id="' + item + '-switch">' +
 					'<label class="custom-control-label" for="' + item + '-switch">Buy</label>' +
 				'</div>' +
 			'</td>' +
 			'<td>' +
-				'<input type="number" class="form-control" min="1" max="100" value="0">' +
+				'<input type="number" class="form-control" min="0" max="100" value="0">' +
 			'</td>' +
 			'<td>' +
 				'<input type="number" class="form-control" min="1" max="100" value="10">' +
