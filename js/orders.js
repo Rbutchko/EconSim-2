@@ -1,5 +1,7 @@
 // buy and sell order classes
 
+let currentOrders = [];
+
 // for ordering a single resource
 class Order {
 	constructor(type, firmNum, resource, price, amount) {

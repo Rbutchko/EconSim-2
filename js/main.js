@@ -236,6 +236,58 @@ class Firm {
 	str() {
 		return this.type() + '#' + this.firmNum;
 	}
+
+	getSellOrders() {
+		let sellResource = Object.keys(this.sell)[0];
+		let sellPrice = this.sell[sellResource];
+		let amount = this.forSale;
+		return [new Order('sell', this.firmNum, sellResource, sellPrice, amount)];
+		// returns array with 1 element.
+		// eventually players will be able to sell multiple resources at once and we want to support
+		// getting multiple sell orders, just like buy orders will have multiple
+	}
+	getBuyOrders(avgPrices) {
+
+		// take into account amount of resources available?
+		// take into account what resources the firm already has?
+
+		let moneyAvailable = Math.max(this.inventory['money']-this.moneyToSave, 0);
+		if(moneyAvailable==0) return [];
+
+		let sellResource = Object.keys(this.sell)[0];
+		let sellPrice = this.sell[sellResource];
+		let amountPerProduction = this.producedGoods[sellResource];		
+		let moneyEarnedFromProduce = amountPerProduction * sellPrice;
+
+		let costsPerProduce = {};
+		let totalCostPerProduce = 0;
+		for(let input of Object.keys(this.produceCost) ) {
+			let inputProduceCost = this.produceCost[input];
+			let inputAvgCost = avgPrices[input];
+			if(inputAvgCost==-1) return [];
+			costsPerProduce[input] = inputProduceCost * inputAvgCost;
+			totalCostPerProduce += costsPerProduce[input];
+		}
+
+		let orders = [];
+
+		for(let input of Object.keys(this.produceCost) ) {
+			// normalizedInputCost is [0,1] weight of
+			// what percentage of the cost of producing should be from this input
+			let normalizedInputCost = costsPerProduce[input] / totalCostPerProduce;
+			let buyPrice = normalizedInputCost * moneyEarnedFromProduce;
+			let buyResource = input;
+
+			let buyAmount = Math.floor(normalizedInputCost * moneyAvailable);
+			if(buyAmount == 0) continue;
+
+			orders.push(new Order('buy', this.firmNum, buyResource, buyPrice, buyAmount) );
+		}
+
+		return orders;
+
+		// note: doesn't take into account upkeep cost or expansion stuff
+	}
 }
 
 // make all the firms :)
@@ -314,7 +366,20 @@ function tick(overridePause=false) {
 		prevActivity = activity;
 		activity = 0;
 		// doTrades(AIs.filter(AI => AI && !AI.bankrupt) );
-		doTrades(AIs.filter(AI => AI!=undefined) );
+		// doTrades(AIs.filter(AI => AI!=undefined) ); // add this back for stable version
+
+
+		let sellOrders = [];
+		let tradingFirms = AIs.filter(AI => AI != undefined && AI.productionOrder != 'off');
+		for(let firm of tradingFirms) {
+			let newOrders = firm.getSellOrders();
+			for(let order of newOrders) {
+				sellOrders.push(order);
+			}
+		}
+		manageTransacitons(sellOrders, tradingFirms);
+
+
 		for(let i=0; i<AIs.length; i++) {
 			if(AIs[i])
 				AIs[i].adjust();
