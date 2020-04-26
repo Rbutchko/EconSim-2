@@ -6,6 +6,7 @@ const FLAVOR = {
 	wheat: 'Lipsum',
 	flour: 'Lipsum',
 	tools: 'Lipsum',
+	money: 'Lipsum',
 
 	mine: 'Lipsum',
 	smith: 'Lipsum',

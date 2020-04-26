@@ -17,6 +17,7 @@ Trading overhaul
 	implementing order object system
 
 Adding player
+should first implement trading overhaul
 	they set buy and sell and their firms run as normal, option to buy a new firm for their expand costs
 
 add locations
