@@ -20,7 +20,7 @@ body {
 	height: 5px;
 	margin: 2px;
 }
-.col-sm-6 {
+.col-sm-6, #economy-summary-div {
 	border-left: 4px solid #666;
 	border-bottom: 4px solid #666;
 	/*border-radius: 10px;*/
@@ -68,8 +68,13 @@ hr {
 }
 
 .nav-tabs {
-	border-bottom: 2px solid #666;
+	border-bottom: 2px solid #999;
 }
-.nav-link.active {
+.nav-link.active, summary {
 	border-bottom: 3px solid #abced4 !important;
+}
+
+summary {
+	font-size: 150% !important;
+	margin-bottom: 16px;
 }
