@@ -13,6 +13,13 @@ const FIRMS = 'mine smith forester farm mill baker refinery mint'.split(' ');
 
 let player;
 
+// note: unfinished and unused. for testing only currently
+function addPlayerFirm(firmName='mine') {
+	if(firmName=='mine') {
+		player.firms.push(new Mine(10) );
+	}
+}
+
 function setupPlayer() {
 	player = {};
 	player.firms = [];
