@@ -300,10 +300,10 @@ function start() {
 	for(let i=0; i<startFirms; i++) {
 		newFirm();
 	}
-	display(AIs, true);
-	
+
 	setupPlayer();
-	drawPlayerUI();
+
+	display(AIs, true);
 }
 
 // const MAX_FIRMS = 300;

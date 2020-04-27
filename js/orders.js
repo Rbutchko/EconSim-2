@@ -9,6 +9,7 @@ class Order {
 		this.price = price;
 		this.amount = amount;
 		this.complete = false;
+		this.onCompleteCallback = null;
 	}
 	updateOrder(amountCompleted) {
 		if(this.amount < amountCompleted) {
@@ -16,11 +17,21 @@ class Order {
 			return false;
 		}
 		this.amount -= amountCompleted;
-		this.complete = this.isComplete();
+		// this.complete = this.isComplete();
+		if(this.isComplete() ) {
+			this.complete = true;
+			if(this.onCompleteCallback) {
+				this.onCompleteCallback(); // callback function for completed order
+			}
+		}
 		return true;
 	}
 	isComplete() {
 		return this.amount == 0;
+	}
+	onComplete(newCallback) {
+		this.onCompleteCallback = newCallback;
+		// override me :)
 	}
 	// addOrder(newOrder, combineStrategy='') {
 	// 	// combineStrategy is 'min', 'max', 'avg', 'prev', or 'new' for taking lowest or highest price for each resource

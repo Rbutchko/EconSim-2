@@ -10,6 +10,7 @@ UI ideas
 	adding trading to resources, making it a modal instead of separate tab
 	click on season for modal about it as well
 	work on mobile display more too
+	display economy basics such as prices etc on stock ticker on top
 
 Fix bugs
 	minor bugs:
@@ -21,6 +22,17 @@ Trading overhaul
 Adding player
 should first implement trading overhaul
 	they set buy and sell and their firms run as normal, option to buy a new firm for their expand costs
+	need input verification on buy and sell inputs, better UI for what they're buying and selling, history, and more options
+	need to verify that they have the resources ot place that order
+	DONE: need better visual feedback that the buy order is active when the switch is off
+
+
+// notes for player orders:
+// trade input switch should clear only after order completion, not just after order is placed (orders are cleared)
+// subtract from order and update input with value remaining to order?
+// option to order for next X days instead of 1 or forever
+history display in modal, with sort by most/least recent, order type, displaying icons, etc, and clear history option
+display total history of resource gained and sold, and money spent/gained
 
 add locations
 	oh boy

@@ -89,3 +89,12 @@ html {
 	right: 25px;
 	z-index: 99;
 }
+
+/*bootstrap custom toggle switch*/
+/*making the buy/sell switches always appear "on" with our current theme color*/
+.buy-sell-switch + .custom-control-label:before {
+	background: #abced4 !important;
+}
+.buy-sell-switch + .custom-control-label:after {
+	background: white !important;
+}

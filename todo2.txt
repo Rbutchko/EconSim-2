@@ -1,6 +1,6 @@
 todo2
 
-implement player working. update player display every tick (call from display.js, remove old displayPlayer func)
+implement player working. update player display every tick
 
 player firms must be able to trade from other firms (but eventually according to values in trading tab)
 

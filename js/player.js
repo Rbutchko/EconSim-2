@@ -36,6 +36,43 @@ function setupPlayer() {
 	// test that shallow clone works:
 	// player.inventory.money = 200;
 	// console.log(EMPTY_INVENTORY.money, player.inventory.money);
+
+	player.firms[0].getBuyOrders = ()=> {
+		let orders = [];
+		for(resource of RESOURCE_TYPES) {
+			if(resource=='money') continue;
+			let resourceAmount = $('#'+resource+'-amount-input').val();
+			if(!($('#'+resource+'-switch').is(':checked') ) && resourceAmount > 0) { // if unchecked it's buying
+				let resourcePrice = $('#'+resource+'-price-input').val();
+				// console.log(resource, resourceAmount, resourcePrice);
+				let newOrder = new Order('buy', player.firms[0].firmNum, resource, resourcePrice, resourceAmount);
+				newOrder.onComplete( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'buy') );
+				orders.push(newOrder);
+				if($('#clear-trade-input-switch').is(':checked') ) {
+					$('#'+resource+'-amount-input').val(0);
+				}
+			}
+		}
+		return orders;
+	}
+	player.firms[0].getSellOrders = ()=> {
+		let orders = [];
+		for(resource of RESOURCE_TYPES) {
+			if(resource=='money') continue;
+			let resourceAmount = $('#'+resource+'-amount-input').val();
+			if($('#'+resource+'-switch').is(':checked') && resourceAmount > 0) { // if checked it's selling
+				let resourcePrice = $('#'+resource+'-price-input').val();
+				// console.log(resource, resourceAmount, resourcePrice);
+				let newOrder = new Order('sell', player.firms[0].firmNum, resource, resourcePrice, resourceAmount);
+				newOrder.onComplete( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'sell') );
+				orders.push(newOrder);
+				if($('#clear-trade-input-switch').is(':checked') ) {
+					$('#'+resource+'-amount-input').val(0);
+				}
+			}
+		}
+		return orders;
+	}
 }
 
 function getCountOfPlayerFirms(firmType) {
@@ -46,4 +83,10 @@ function getCountOfPlayerFirms(firmType) {
 		}
 	}
 	return count;
+}
+
+function addOrderHistory(resource, price, amount, type) {
+	$('#order-history-display').prepend(
+		'Completed ', type, ' order of ', amount, ' ', resource, ' at a price of ', price, ' per ', resource, ' for a total cost of ', amount*price, '<br>'
+	);
 }

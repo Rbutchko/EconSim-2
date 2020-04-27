@@ -95,17 +95,7 @@ function display(firms, doDrawChart=false) {
 	}
 	$('.firm-types').html(tmpHTML);
 
-	// displayPlayer();
-}
-
-function displayPlayer() {
-	if(!player) return;
-
-	let tmpHTML = '';
-	for(resource in player[0].inventory)
-		tmpHTML += resource + ': ' + player[0].inventory[resource] + ' | ';
-
-	$('#player-display').html(tmpHTML);
+	drawPlayerUI();
 }
 
 const round = (num, places=3) => Number( (num).toFixed(places) );

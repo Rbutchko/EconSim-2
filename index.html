@@ -62,8 +62,18 @@
 	<br>
 	<div class="tab-content">
 		<div class="tab-pane fade show" id="trading" role="tabpanel" aria-labelledby="trading-tab">
-			<h5>Trade:</h5>
-			<table id="trade-table"></table>	
+			<h5>Orders:</h5>
+			<table id="trade-table"></table>
+			<br>
+			<h5>Order Settings:</h5>
+			<div class="custom-control custom-switch">
+				<input id="clear-trade-input-switch" type="checkbox" class="custom-control-input">
+				<label class="custom-control-label" for="clear-trade-input-switch">Clear input after 1 market cycle</label>
+			</div>
+			<details open>
+				<summary class="btn">Order History:</summary>
+				<div id="order-history-display"></div>
+			</details>
 		</div>
 		<div class="tab-pane fade show" id="firms" role="tabpanel" aria-labelledby="firms-tab">
 			<h5>Firms:</h5>
