@@ -13,7 +13,9 @@ function performTransaction(buyOrder, sellOrder) {
 	}
 
 	if(buyOrder.complete || sellOrder.complete) {
-		console.error('An order is already complete performTransaction');
+		// below error means that the loop in manageTransactions below that calls this function
+		// failed to splice a completed order before calling performTransaction
+		console.error('A', (buyOrder.complete ? 'buy' : 'sell')  , 'order is already complete performTransaction');
 		return false;
 	}
 
@@ -49,7 +51,7 @@ function performTransaction(buyOrder, sellOrder) {
 	sellOrder.updateOrder(amount);
 	buyOrder.updateOrder(amount);
 
-	console.log('traded', seller, buyer, resource, amount, price);
+	// console.log('traded', seller, buyer, resource, amount, price);
 	return true;
 }
 
@@ -74,6 +76,7 @@ function manageTransacitons(sellOrders, buyers) {
 
 		let currentSells = sellOrders.filter(x => x.resource == resource && isValidOrder(x) );
 		let currentBuys = buyOrders.filter(x => x.resource == resource && isValidOrder(x) );
+
 		// a-b is ascending, b-a is descending
 		// sell orders are by chespest first, buy orders are shuffled
 		currentSells.sort( (a, b) => a.price - b.price);
@@ -83,22 +86,32 @@ function manageTransacitons(sellOrders, buyers) {
 		// buy orders are shuffled
 		// we've filtered out invalid orders
 
+
+		// let buyIdxs = [...Array(currentBuys.length).keys()]; // list of nums 0 to n-1
+		// shuffle(buyIdxs);
+
 		// perform transaction
-		for(sellOrder of currentSells) {
+		for(sellIdx in currentSells) {
 			let toExit = false;
-			for(buyOrder of currentBuys) {
-				if(sellOrder.price < buyOrder.price) {
-					performTransaction(buyOrder, sellOrder);
-					if(sellOrder.complete) {
-						currentSells.remove(sellOrder);
+			for(buyIdx in currentBuys) {
+				if(currentSells[sellIdx].price < currentBuys[buyIdx].price) {
+					performTransaction(currentBuys[buyIdx], currentSells[sellIdx]);
+					if(currentSells[sellIdx].complete) {
+						currentSells.splice(sellIdx, 1);
+						sellIdx--;
 						break; // go to outter loop / next seller
 					}
-					if(buyOrder.complete) {
-						currentBuys.remove(buyOrder);
+					if(currentBuys[buyIdx].complete) {
+						currentBuys.splice(buyIdx, 1);
+						buyIdx--; // account for effect of splicing on idx, so next item isn't skipped
 					}
 				}
 				else {
-					currentBuys.remove(buyOrder); // hmm?
+					// if buyer asks for too little (cheaper than the cheapest price available)
+					// since sell orders are sorted by price
+					// then remove the buy order
+					currentBuys.splice(buyIdx, 1);
+					buyIdx--;
 				}
 			}
 		}
@@ -161,11 +174,11 @@ function getAvgPrices(sellOrders) {
 	let avgPrices = {};
 	for(let resource of RESOURCE_TYPES) {
 		let info = priceInfo[resource];
-		if(info.amountForSale==0) {
+		if(info.amountForSale==0 || info.priceTotal==0) {
 			avgPrices[resource] = -1;
 		}
 		else {
-			avgPrices[resource] = info.priceTotal / info.amountForSale;			
+			avgPrices[resource] = info.priceTotal / info.amountForSale;
 		}
 	}
 	return avgPrices;

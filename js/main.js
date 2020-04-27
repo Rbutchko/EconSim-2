@@ -250,6 +250,7 @@ class Firm {
 
 		// take into account amount of resources available?
 		// take into account what resources the firm already has?
+		// take into account if it's worht it to produce?
 
 		let moneyAvailable = Math.max(this.inventory['money']-this.moneyToSave, 0);
 		if(moneyAvailable==0) return [];
@@ -264,7 +265,7 @@ class Firm {
 		for(let input of Object.keys(this.produceCost) ) {
 			let inputProduceCost = this.produceCost[input];
 			let inputAvgCost = avgPrices[input];
-			if(inputAvgCost==-1) return [];
+			if(inputAvgCost==-1 || inputAvgCost==0) return [];
 			costsPerProduce[input] = inputProduceCost * inputAvgCost;
 			totalCostPerProduce += costsPerProduce[input];
 		}
@@ -275,10 +276,10 @@ class Firm {
 			// normalizedInputCost is [0,1] weight of
 			// what percentage of the cost of producing should be from this input
 			let normalizedInputCost = costsPerProduce[input] / totalCostPerProduce;
-			let buyPrice = normalizedInputCost * moneyEarnedFromProduce;
+			let buyPrice = Math.floor(normalizedInputCost * moneyEarnedFromProduce);
 			let buyResource = input;
 
-			let buyAmount = Math.floor(normalizedInputCost * moneyAvailable);
+			let buyAmount = Math.floor(moneyAvailable * normalizedInputCost  / buyPrice);
 			if(buyAmount == 0) continue;
 
 			orders.push(new Order('buy', this.firmNum, buyResource, buyPrice, buyAmount) );

@@ -19,59 +19,59 @@ class Order {
 		this.complete = this.isComplete();
 		return true;
 	}
-	addOrder(newOrder, combineStrategy='') {
-		// combineStrategy is 'min', 'max', 'avg', 'prev', or 'new' for taking lowest or highest price for each resource
-		if(newOrder.firmNum != this.firmNum) {
-			console.error('Firm numbers don\'t match', newOrder.firmNum, this.firmNum);
-			return false;
-		}
-		if(newOrder.type != this.type) {
-			console.error('Order types don\'t match', newOrder.type, this.type);
-			return false;
-		}
-		if(newOrder.complete || this.complete) {
-			console.warn('An order is already complete', newOrder.compelte, this.compelte);
-			return false;
-		}
-
-		if(newOrder.resource != this.resource) {
-			console.error('Orders must be of same resource. Use MultiOrder class for complex orders', newOrder.resource, this.resource);
-			return false;
-		}
-		if(newOrder.price != this.price && combineStrategy=='') {
-			console.error('No combine strategy given for orders of different prices', newOrder.price, this.price);
-			return false;
-		}
-
-		this.amount += newOrder.amount;
-
-		switch(combineStrategy) {
-			case 'min':
-				this.price = Math.min(newOrder.price, this.price);
-				break;
-
-			case 'max':
-				this.price = Math.max(newOrder.price, this.price);
-				break;
-
-			case 'avg':
-				this.price = Math.round( (newOrder.price + this.price) / 2);
-				break;
-
-			case 'new':
-				this.price = newOrder.price;
-				break;
-
-			// no need to handle below; price remains the same
-			// case 'prev':
-			// 	break;
-		}
-
-		return true;
-	}
 	isComplete() {
 		return this.amount == 0;
 	}
+	// addOrder(newOrder, combineStrategy='') {
+	// 	// combineStrategy is 'min', 'max', 'avg', 'prev', or 'new' for taking lowest or highest price for each resource
+	// 	if(newOrder.firmNum != this.firmNum) {
+	// 		console.error('Firm numbers don\'t match', newOrder.firmNum, this.firmNum);
+	// 		return false;
+	// 	}
+	// 	if(newOrder.type != this.type) {
+	// 		console.error('Order types don\'t match', newOrder.type, this.type);
+	// 		return false;
+	// 	}
+	// 	if(newOrder.complete || this.complete) {
+	// 		console.warn('An order is already complete', newOrder.compelte, this.compelte);
+	// 		return false;
+	// 	}
+
+	// 	if(newOrder.resource != this.resource) {
+	// 		console.error('Orders must be of same resource. Use MultiOrder class for complex orders', newOrder.resource, this.resource);
+	// 		return false;
+	// 	}
+	// 	if(newOrder.price != this.price && combineStrategy=='') {
+	// 		console.error('No combine strategy given for orders of different prices', newOrder.price, this.price);
+	// 		return false;
+	// 	}
+
+	// 	this.amount += newOrder.amount;
+
+	// 	switch(combineStrategy) {
+	// 		case 'min':
+	// 			this.price = Math.min(newOrder.price, this.price);
+	// 			break;
+
+	// 		case 'max':
+	// 			this.price = Math.max(newOrder.price, this.price);
+	// 			break;
+
+	// 		case 'avg':
+	// 			this.price = Math.round( (newOrder.price + this.price) / 2);
+	// 			break;
+
+	// 		case 'new':
+	// 			this.price = newOrder.price;
+	// 			break;
+
+	// 		// no need to handle below; price remains the same
+	// 		// case 'prev':
+	// 		// 	break;
+	// 	}
+
+	// 	return true;
+	// }
 }
 
 /*

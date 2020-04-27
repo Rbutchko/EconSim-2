@@ -11,7 +11,8 @@ UI ideas
 	work on mobile display more too
 
 Fix bugs
-	NaN bug seemingly in trading
+	minor bugs:
+		chart.js can't handle if a resource doesn't have a price (ie. nothing that produces it exists)
 
 Trading overhaul
 	implementing order object system
