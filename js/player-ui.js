@@ -29,6 +29,7 @@ function drawPlayerUI() {
 function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';
 	for(item in EMPTY_INVENTORY) {
+		if(item=='money') continue;
 		tmpHTML += '<tr>' +
 			'<td>' + capitalize(item) + '</td>' +
 			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-sm"></td>' +
@@ -39,10 +40,10 @@ function fillPlayerInputTable() {
 				'</div>' +
 			'</td>' +
 			'<td>' +
-				'<input type="number" class="form-control" min="0" max="100" value="0">' +
+				'<input id="' + item + '-amount-input" type="number" class="form-control" min="0" max="100" value="0">' +
 			'</td>' +
 			'<td>' +
-				'<input type="number" class="form-control" min="1" max="100" value="10">' +
+				'<input id="' + item + '-price-input" type="number" class="form-control" min="1" max="100" value="10">' +
 			'</td>' +
 		'</tr>';
 	}
