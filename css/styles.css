@@ -1,13 +1,12 @@
-body {
-	/*background-image: url('../img/bg-transparent.png');*/
+/* primary: #A6C8D9 */
 
+body {
 	/*https://leaverou.github.io/css3patterns/#lined-paper*/
 	background-color: #fff;
 	background-image:
-	linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+	linear-gradient(90deg, transparent 79px, #A6C8D9 79px, #A6C8D9 81px, transparent 81px),
 	linear-gradient(#eee .1em, transparent .1em);
 	background-size: 100% 1.2em;
-
 }
 ::-moz-selection {
 	background: #ccc;
@@ -71,7 +70,7 @@ hr {
 	border-bottom: 2px solid #999;
 }
 .nav-link.active, summary {
-	border-bottom: 3px solid #abced4 !important;
+	border-bottom: 3px solid #A6C8D9 !important;
 }
 
 summary {
@@ -93,7 +92,7 @@ html {
 /*bootstrap custom toggle switch*/
 /*making the buy/sell switches always appear "on" with our current theme color*/
 .buy-sell-switch + .custom-control-label:before {
-	background: #abced4 !important;
+	background: #A6C8D9 !important;
 }
 .buy-sell-switch + .custom-control-label:after {
 	background: white !important;

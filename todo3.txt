@@ -11,6 +11,7 @@ UI ideas
 	click on season for modal about it as well
 	work on mobile display more too
 	display economy basics such as prices etc on stock ticker on top
+	every firm has a little round box that displays how much it's buying, for what cost, and how much it's selling, for what cost
 
 Fix bugs
 	minor bugs:

@@ -1,9 +1,0 @@
-todo2
-
-implement player working. update player display every tick
-
-player firms must be able to trade from other firms (but eventually according to values in trading tab)
-
-player firms must share a pool of resources, player resources. extend firm class and add functionality for pooled resources... oh boy...
-
-every firm has a little round box that displays how much it's buying, for what cost, and how much it's selling, for what cost
