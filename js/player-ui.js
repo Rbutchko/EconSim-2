@@ -1,12 +1,15 @@
+import { RESOURCE_TYPES, FIRMS, capitalize } from './util.js';
+import { getSprite } from './sprites.js';
+import { player, getCountOfPlayerFirms } from './player.js';
+
 $( ()=> {
 	fillPlayerInputTable();
-
-	// drawPlayerUI(); // called in main
 });
 
-function drawPlayerUI() {
+// called in display.js
+export function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
-	for(firm of FIRMS) {
+	for(let firm of FIRMS) {
 		// console.log(firm);
 		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' + getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
 		// console.log(firm);
@@ -18,7 +21,7 @@ function drawPlayerUI() {
 	// $('#player-firms').append('<br>TODO: list of all firms of that type, view their inventory and manage them, buy/sell, etc');
 
 	tmpHTML = '<div class="row">';
-	for(item in player.inventory)
+	for(let item in player.inventory)
 		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + player.inventory[item] + getSprite(item, 'md') + '<br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
 	// $('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
@@ -28,11 +31,12 @@ function drawPlayerUI() {
 
 function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';
-	for(item in EMPTY_INVENTORY) {
-		if(item=='money') continue;
+	for(let item of RESOURCE_TYPES) {
+		// console.log(item);
+		// if(item=='money') continue;
 		tmpHTML += '<tr>' +
 			'<td>' + capitalize(item) + '</td>' +
-			'<td><img src="img/icons/' + icons[item] + '.png" class="icon-sm"></td>' +
+			'<td>' + getSprite(item) + '</td>' +
 			'<td>' +
 				'<div class="custom-control custom-switch">' +
 					'<input type="checkbox" class="custom-control-input buy-sell-switch" id="' + item + '-switch">' +

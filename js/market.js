@@ -1,5 +1,9 @@
 //  new order system handling. see documentation for details. will document this more in future
 
+import { RESOURCE_TYPES } from './util.js';
+import { AIs } from './firm.js';
+import { activity, addActivity } from './main.js';
+
 function performTransaction(buyOrder, sellOrder) {
 	// error checking
 	if(buyOrder.resource != sellOrder.resource) {
@@ -46,7 +50,7 @@ function performTransaction(buyOrder, sellOrder) {
 	buyer.give(seller, 'money', price*amount);
 
 	seller.prevAmountSold += amount;
-	activity += amount;
+	addActivity(amount);
 
 	sellOrder.updateOrder(amount);
 	buyOrder.updateOrder(amount);
@@ -55,7 +59,7 @@ function performTransaction(buyOrder, sellOrder) {
 	return true;
 }
 
-function manageTransacitons(sellOrders, buyers) {
+export function manageTransacitons(sellOrders, buyers) {
 
 	let avgPrices = getAvgPrices(sellOrders);
 
@@ -91,9 +95,9 @@ function manageTransacitons(sellOrders, buyers) {
 		// shuffle(buyIdxs);
 
 		// perform transaction
-		for(sellIdx in currentSells) {
+		for(let sellIdx in currentSells) {
 			let toExit = false;
-			for(buyIdx in currentBuys) {
+			for(let buyIdx in currentBuys) {
 				if(currentSells[sellIdx].price < currentBuys[buyIdx].price) {
 					performTransaction(currentBuys[buyIdx], currentSells[sellIdx]);
 					if(currentSells[sellIdx].complete) {

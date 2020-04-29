@@ -23,7 +23,8 @@ const icons = {
 	'winter':'SGI_170',
 	'spring':'SGI_64',
 	'summer':'SGI_134',
-	'fall':'SGI_51'
+	'fall'  :'SGI_51'
 };
 
-const getSprite =(name, size='sm') => '<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';
+export const getSprite = (name, size='sm') => 
+	'<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';

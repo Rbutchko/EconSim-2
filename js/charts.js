@@ -1,4 +1,4 @@
-//google charts
+import { capitalize, RESOURCE_TYPES, RESOURCE_COLORS } from './util.js';
 
 google.charts.load('current', {packages:['corechart','line']});
 // google.charts.setOnLoadCallback(drawChart); // Do NOT do this, passes empty param and messes up variables
@@ -19,35 +19,15 @@ function addPrevPrices(newPrices) {
 	}
 }
 
-// note: we are omitting 'money' (it doesn't have a price)
-const RESOURCE_TYPES = [
-	'bread',
-	'ore',
-	'lumber',
-	'metal',
-	'wheat',
-	'flour',
-	'tools'
-];
-
-const RESOURCE_COLORS = [
-	'#FFFA61',
-	'#AB9E9B',
-	'#55842C',
-	'#E4DFBF',
-	'#E08C1D',
-	'#DBAC86',
-	'#967752'
-];
 // note: when a resource isn't drawn, its color isn't skipped. meaning the next resource uses that color, and so on
 
-function drawChart(avgPrices) {
+export function drawChart(avgPrices) {
 	addPrevPrices(avgPrices);
 
 	let data = new google.visualization.DataTable();
 
 	data.addColumn('number', 'Time');
-	for(resource of RESOURCE_TYPES) {
+	for(let resource of RESOURCE_TYPES) {
 		if(! $('#'+resource+'-check').is(':checked') ) continue;
 		data.addColumn('number', capitalize(resource) );
 	}
@@ -76,7 +56,7 @@ function drawChart(avgPrices) {
 	let rows = [];
 	for(let i=0; i<prevPrices.length; i++) {
 		let tmp = [i];
-		for(resource of RESOURCE_TYPES) {
+		for(let resource of RESOURCE_TYPES) {
 			if(! $('#'+resource+'-check').is(':checked') ) continue;
 			
 			// bug: prevPrices[i][resource] is undefined if prevPrices doesn't have that resource (not enough firms)
@@ -120,7 +100,7 @@ function addPrevActivities(newActivity) {
 	}
 }
 
-function drawActivityChart(activity) {
+export function drawActivityChart(activity) {
 	addPrevActivities(activity);
 
 	let data = new google.visualization.DataTable();
@@ -151,3 +131,18 @@ function drawActivityChart(activity) {
 	chart.draw(data, options);
 
 }
+
+// generate chart checkboxes
+$( ()=> {
+	let tmpHTML = '';
+	for(let resource of RESOURCE_TYPES) {
+		tmpHTML +=
+			'<div class="custom-control custom-checkbox custom-control-inline">'
+		+		'<div class="custom-control custom-checkbox">'
+		+			'<input type="checkbox" class="custom-control-input" id="'+resource+'-check" checked>'
+		+			'<label class="custom-control-label" for="'+resource+'-check">'+capitalize(resource)+'</label>'
+		+		'</div>'
+		+	'</div>';
+	}
+	$('#chart-checkbox-div').append(tmpHTML);
+});

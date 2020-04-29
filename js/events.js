@@ -1,7 +1,12 @@
-const SEASON_LENGTH = 50; // ticks
-const YEAR_LENGTH = SEASON_LENGTH*4;
-const MAX_SHORT_EVENT_LENGTH = 600; //evntually will be more complicated than this, different lengths in different places
+/**
+* @author justingolden21
+* imported by display, firm, and main
+*/
 
+/**
+* Enum for seasons
+* @enum {Number}
+*/
 const WINTER = 1;
 const SPRING = 2;
 const SUMMER= 3;
@@ -9,22 +14,49 @@ const FALL = 4;
 
 let currentSeason = WINTER;
 
-//increments currentSeason variable
-function changeSeason() {
+// measured in ticks
+export const SEASON_LENGTH = 50;
+
+/**
+* Increment currentSeason
+*/
+export function nextSeason() {
 	currentSeason++;
 	if(currentSeason > 4) {
 		currentSeason = 1;
 	}
 }
 
-function getSeasonName(seasonNum) {
-	return ['winter','spring','summer','fall'][seasonNum-1];
+/**
+* @param {Boolean} capitalized - If the returned string should be capitalized
+* @return {String} season - The name of the current season
+*/
+export function getCurrentSeason(capitalized=false) {
+	if(capitalized) {
+		return ['Winter','Spring','Summer','Fall'][currentSeason-1];	
+	}
+	return ['winter','spring','summer','fall'][currentSeason-1];
 }
 
-// inventory numbers are multiplied against the produced good
+/**
+* @return {String} season - The name of the given season
+*/
+// export function getSeasonName(seasonNum) {
+// 	return ['Winter','Spring','Summer','Fall'][seasonNum-1];
+// }
+
+/**
+* @param {String} resource - The resource whos modifier should be returned
+* @return {Number} modifier - The current season's modifier for the given resource
+*/
+export function getSeasonModifier(resource) {
+	return SEASONS[currentSeason][resource];
+}
+
+// note: inventory numbers are multiplied against the produced good
 const SEASONS = {
 	[WINTER]: {
-	   'money' : 1.1,
+		'money' : 1.1,
 		'bread' : 1,
 		'ore'   : 1.1,
 		'lumber': .9,
@@ -65,85 +97,85 @@ const SEASONS = {
 	}
 };
 
-// frequency is odds event occurs relative to other events
-const YEAR_EVENTS = {
-	'rename this': {
-		'frequency': 0,
+// @property {Number} frequency - The odds the event occurs relative to other events
+// const YEAR_EVENTS = {
+// 	'rename this': {
+// 		'frequency': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	},
-	'rename this': {
-		'frequency': 0,
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	},
+// 	'rename this': {
+// 		'frequency': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	},
-	'rename this': {
-		'frequency': 0,
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	},
+// 	'rename this': {
+// 		'frequency': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	}
-};
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	}
+// };
 
-// length is durration of event, percentage of max short event length
-const SHORT_EVENTS = {
-	'rename this': {
-		'frequency': 0,
-		'length': 0,
+// @property {Number} length - The durration of the event in ticks
+// const SHORT_EVENTS = {
+// 	'rename this': {
+// 		'frequency': 0,
+// 		'length': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	},
-	'rename this': {
-		'frequency': 0,
-		'length': 0,
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	},
+// 	'rename this': {
+// 		'frequency': 0,
+// 		'length': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	},
-	'rename this': {
-		'frequency': 0,
-		'length': 0,
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	},
+// 	'rename this': {
+// 		'frequency': 0,
+// 		'length': 0,
 
-		'money' : 0,
-		'bread' : 0,
-		'ore'   : 0,
-		'lumber': 0,
-		'metal' : 0,
-		'wheat' : 0,
-		'flour' : 0,
-		'tools' : 0
-	}
-};
+// 		'money' : 0,
+// 		'bread' : 0,
+// 		'ore'   : 0,
+// 		'lumber': 0,
+// 		'metal' : 0,
+// 		'wheat' : 0,
+// 		'flour' : 0,
+// 		'tools' : 0
+// 	}
+// };

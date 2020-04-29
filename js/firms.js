@@ -1,22 +1,28 @@
+/* firms.js
+defines the 8 firm classes that extend the firm class
+firm types only differ in their variable values; functions are the same
+
+*/
+
 // note: currently none of the upkeep costs are things that they sell
 // note: expandReady must be > expandCost
-// start money and expandCost money should be equal
-class Mine extends Firm {
+// start money and expandCost money should be equal (keeps amount of money constant)
+
+import {Firm} from './firm.js';
+
+export class Mine extends Firm {
 	constructor(sellPrice) {
 		super({'money':4000, 'bread':180, 'tools':80}); // starting inventory
 
 		this.sell = {'ore': sellPrice}; // resource sold and its price
 
-		
-
 		this.upkeepCost = {'tools': 3};
-		this.upkeepInterval = random(1, 14); 
 
 		this.produceCost = {'bread': 30, 'tools': 10}; // what it takes for this to produce
 		this.producedGoods = {'ore': 110}; // what this is producing
 		this.variance = 20; // amount production will vary from the value set in producedGoods
 
-		// requirement before firm starting trying to accumulate resources necessary to expand
+		// requirement before firm starts trying to accumulate resources necessary to expand
 		this.expandRequirement = {'bread': 360, 'tools': 120};
 
 		// resources necessary to expand
@@ -28,33 +34,31 @@ class Mine extends Firm {
 	}
 }
 
-class Smith extends Firm {
+export class Smith extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'metal': 90, 'lumber': 60, 'bread': 40});
 
 		this.sell = {'tools': sellPrice};
 
 		this.upkeepCost = {'bread': 10};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'metal': 15, 'lumber': 10};
 		this.producedGoods = {'tools': 20};
 		this.variance = 10;
-		
+
 		this.expandRequirement = {'metal': 180, 'lumber': 120};
 		this.expandReady = {'money': 6000, 'metal': 200, 'lumber': 140, 'bread': 160};
 		this.expandCost = {'money': 3000, 'metal': 110, 'lumber': 80, 'bread': 60};
 	}
 }
 
-class Forester extends Firm {
+export class Forester extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 80, 'tools': 40});
 
 		this.sell = {'lumber': sellPrice};
 
 		this.upkeepCost = {'bread': 10, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 10, 'tools': 5};
 		this.producedGoods = {'lumber': 30 };
@@ -66,14 +70,13 @@ class Forester extends Firm {
 	}
 }
 
-class Farm extends Firm {
+export class Farm extends Firm {
 	constructor(sellPrice) {
 		super({'money': 2000, 'bread': 80, 'tools': 20});
 
 		this.sell = {'wheat': sellPrice};
 
 		this.upkeepCost = { 'bread': 5, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread': 10, 'tools': 2};
 		this.producedGoods = {'wheat': 300};
@@ -85,14 +88,13 @@ class Farm extends Firm {
 	}
 }
 
-class Mill extends Firm {
+export class Mill extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 80, 'wheat': 1200, 'tools': 10});
-		
+
 		this.sell = {'flour': sellPrice};
 
 		this.upkeepCost = {'bread': 5, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'wheat': 400, 'bread':10};
 		this.producedGoods = {'flour': 300};
@@ -104,14 +106,13 @@ class Mill extends Firm {
 	}
 }
 
-class Baker extends Firm {
+export class Baker extends Firm {
 	constructor(sellPrice) {
 		super({'money': 4000, 'bread': 20,'flour': 240, 'tools': 10, 'lumber': 30});
 
 		this.sell = {'bread': sellPrice};
 
 		this.upkeepCost = {'lumber': 1, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'flour': 40, 'lumber': 2};
 		this.producedGoods = {'bread': 100};
@@ -123,14 +124,13 @@ class Baker extends Firm {
 	}
 }
 
-class Refinery extends Firm {
+export class Refinery extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 60, 'tools': 5, 'ore': 240, 'tools': 10,'lumber': 10,});
 
 		this.sell = {'metal': sellPrice};
 
 		this.upkeepCost = {'lumber': 3, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 		
 		this.produceCost = {'bread':10, 'ore': 50};
 		this.producedGoods = {'metal': 30};
@@ -142,17 +142,14 @@ class Refinery extends Firm {
 	}
 }
 
-// The mint class actually isn't special. It will just not sell anything
-// I imagine this working as each coin being individually molded metal like a piece of art, with
-// very fine artwork making it valuable. Therefore, it will require metal and a large amount of food
-class Mint extends Firm {
+export class Mint extends Firm {
 	constructor(sellPrice) {
 		super({'money': 4000, 'bread': 120, 'tools': 10, 'metal': 120, 'lumber': 10,});
 
-		this.sell = {'money': 1}; // sells 1 money for 1 money... might want to change later...	
+		// skipped by trading/order system, exists for normalcy
+		this.sell = {'money': 1}; // sells 1 money for 1 money
 
 		this.upkeepCost = {'lumber': 2, 'tools':1};
-		this.upkeepInterval = random(1, 14);
 
 		this.produceCost = {'bread':20, 'metal': 20};
 		this.producedGoods = {'money': 1250};

@@ -1,17 +1,9 @@
-const EMPTY_INVENTORY = {
-	'money' : 0,
-	'bread' : 0,
-	'ore'   : 0,
-	'lumber': 0,
-	'metal' : 0,
-	'wheat' : 0,
-	'flour' : 0,
-	'tools' : 0
-};
+import { AIs } from './firm.js';
+import { Mine, Smith, Forester, Farm, Mill, Baker, Refinery, Mint } from './firms.js';
+import { EMPTY_INVENTORY, RESOURCE_TYPES } from './util.js';
+import { Order } from './orders.js';
 
-const FIRMS = 'mine smith forester farm mill baker refinery mint'.split(' ');
-
-let player;
+export let player;
 
 // note: unfinished and unused. for testing only currently
 function addPlayerFirm(firmName='mine') {
@@ -20,7 +12,7 @@ function addPlayerFirm(firmName='mine') {
 	}
 }
 
-function setupPlayer() {
+export function setupPlayer() {
 	player = {};
 	player.firms = [];
 	player.inventory = Object.assign({}, EMPTY_INVENTORY); // shallow clone
@@ -46,14 +38,14 @@ function setupPlayer() {
 
 	player.firms[0].getBuyOrders = ()=> {
 		let orders = [];
-		for(resource of RESOURCE_TYPES) {
+		for(let resource of RESOURCE_TYPES) {
 			if(resource=='money') continue;
 			let resourceAmount = $('#'+resource+'-amount-input').val();
 			if(!($('#'+resource+'-switch').is(':checked') ) && resourceAmount > 0) { // if unchecked it's buying
 				let resourcePrice = $('#'+resource+'-price-input').val();
 				// console.log(resource, resourceAmount, resourcePrice);
 				let newOrder = new Order('buy', player.firms[0].firmNum, resource, resourcePrice, resourceAmount);
-				newOrder.onComplete( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'buy') );
+				newOrder.onComplete=( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'buy') );
 				orders.push(newOrder);
 				if($('#clear-trade-input-switch').is(':checked') ) {
 					$('#'+resource+'-amount-input').val(0);
@@ -64,14 +56,14 @@ function setupPlayer() {
 	}
 	player.firms[0].getSellOrders = ()=> {
 		let orders = [];
-		for(resource of RESOURCE_TYPES) {
+		for(let resource of RESOURCE_TYPES) {
 			if(resource=='money') continue;
 			let resourceAmount = $('#'+resource+'-amount-input').val();
 			if($('#'+resource+'-switch').is(':checked') && resourceAmount > 0) { // if checked it's selling
 				let resourcePrice = $('#'+resource+'-price-input').val();
 				// console.log(resource, resourceAmount, resourcePrice);
 				let newOrder = new Order('sell', player.firms[0].firmNum, resource, resourcePrice, resourceAmount);
-				newOrder.onComplete( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'sell') );
+				newOrder.onComplete=( ()=> addOrderHistory(resource, resourcePrice, resourceAmount, 'sell') );
 				orders.push(newOrder);
 				if($('#clear-trade-input-switch').is(':checked') ) {
 					$('#'+resource+'-amount-input').val(0);
@@ -82,9 +74,9 @@ function setupPlayer() {
 	}
 }
 
-function getCountOfPlayerFirms(firmType) {
+export function getCountOfPlayerFirms(firmType) {
 	let count = 0;
-	for(playerFirm of player.firms) {
+	for(let playerFirm of player.firms) {
 		if(playerFirm.type()==firmType) {
 			count++;
 		}

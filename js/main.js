@@ -1,3 +1,11 @@
+import { Mine, Smith, Forester, Farm, Mill, Baker, Refinery, Mint } from './firms.js';
+import { Firm, AIs, currentFirmNum, numBankrupt, TRADE_INTERVAL } from './firm.js';
+import { random, getFirmCount, FIRMS } from './util.js';
+import { setupPlayer } from './player.js';
+import { display } from './display.js';
+import { manageTransacitons } from './market.js';
+import { nextSeason, SEASON_LENGTH } from './events.js';
+
 // setting stuff up: ticks, buttons, key listeners
 window.onload = ()=> {
 	start();
@@ -34,7 +42,6 @@ window.onscroll = function() {
 	}
 };
 
-let numBankrupt = 0;
 let paused = false;
 // let paused = true;
 document.onkeydown = (evt)=> {
@@ -47,253 +54,8 @@ document.onkeydown = (evt)=> {
 	}
 };
 
-// Firm class, all firms inherit from this
-class Firm {
-	constructor(startInventory) {
-		this.inventory = {
-			'money' :  startInventory.money  || 0,
-			'bread' :  startInventory.bread  || 0,
-			'ore'   :  startInventory.ore    || 0,
-			'lumber':  startInventory.lumber || 0,
-			'metal' :  startInventory.metal  || 0,
-			'wheat' :  startInventory.wheat  || 0,
-			'flour' :  startInventory.flour  || 0,
-			'tools' :  startInventory.tools  || 0
-		};
-		this.firmNum = currentFirmNum++;
-		this.efficiency = normal01();
-
-		this.productionOrder = 'auto';
-
-		this.ticks = 0;
-		this.bankrupt = false;
-		this.shouldBuyUpkeep = false; 		 // a flag that we set to true if they must pay upkeep
-
-		this.prevAmountProduced = 0;
-		this.prevAmountSold = 0;
-
-		this.forSale = 0;
-		this.moneyToSave = 0;
-		this.timesExpanded = 0;
-	}
-	tick() {
-		if(this.bankrupt) return;
-		this.prevAmountSold = 0;
-		this.ticks++;
-
-		productionStrat(this);
-
-		if (this.productionOrder == 'off') {
-			console.warn('production order for firm', this.type(), 'is off');
-			// might be able to work out a similar solution to stop player owned firms from trading, must be careful they still payupkeep
-			return;
-		}
-
-		this.doProduction();
-
-		if(this.hasAll(this.expandReady) && this.productionOrder == 'auto') {
-			this.payAll(this.expandCost);
-			newFirm(this.type(), this.sell[Object.keys(this.sell)[0] ]); // type and sell price
-			this.timesExpanded++;
-		}
-
-		// it should already have all other resources in expandReady before saving money
-		// money is last step
-		if(this.hasAll(this.expandRequirement) && this.hasAll(this.expandReady) && this.productionOrder == 'auto') {
-			this.moneyToSave = this.expandReady['money'] || 0;
-		} else {
-			this.moneyToSave = 0;
-		}
-
-		if(this.ticks % 14 == this.upkeepInterval) {
-			payUpkeep(this);
-		}
-	}
-
-	doProduction() {
-		if(!this.hasAll(this.produceCost) ) {
-		return; }
-
-		if(this.hasAll(this.expandRequirement) && this.productionOrder == 'auto')  {
-			// if it's trying to expand but
-			// can't produce and have enough leftover to get to expandReady, return
-			//this also makes sure that the firm is an AI, and should be automatically expanding
-
-			// for each resource in expandReady
-			// if produceCost has that resource
-			// make sure there is enough to produce and still have amount necessary for expandReady
-			// else return
-			for(resource in this.expandReady) {
-				if(this.produceCost[resource]) {
-					// console.log(this.inventory[resource], this.produceCost[resource], this.expandReady[resource]);
-					if(this.inventory[resource] < this.produceCost[resource] + this.expandReady[resource]) {
-						return;
-					}
-				}
-			}
-		}
-
-
-		// -------- --------
-
-		for(let resource in this.produceCost) {
-			this.pay(resource, this.produceCost[resource]);
-			// console.log(this.produceCost[resource]);
-		}
-
-		let amountProduced = this.producedGoods[Object.keys(this.producedGoods)[0] ] + random(0, this.variance);
-		amountProduced *= 0.95 + 0.1*this.efficiency;
-			//adding season affect
-
-		amountProduced *= SEASONS[currentSeason][Object.keys(this.producedGoods)[0] ]; // adding the seasons effect
-
-		amountProduced = Math.round(amountProduced);
-
-		this.gain(Object.keys(this.producedGoods)[0], amountProduced);
-		this.prevAmountProduced = amountProduced;
-
-		checkShouldBuyUpkeep(this);
-	}
-	adjust() {
-		// can edit function so seller prefers to not sell and save resources for later
-		let sellResource = Object.keys(this.sell)[0];
-		// console.log(this.prevAmountProduced, this.prevAmountSold);
-
-		
-		/* let factor = this.prevAmountSold / this.prevAmountProduced;
-		this.sell[sellResource] = Math.round(this.sell[sellResource] * (factor + 1)/2 );
-		*/
-
-		if(this.prevAmountProduced > this.prevAmountSold) { // produced more that 2 * sold
-			this.sell[sellResource] -= 1;
-			//console.log("I sold!");
-		} else {
-			// console.log('goin up');
-			let factor = this. prevAmountSold / this.prevAmountProduced;
-			this.sell[sellResource] += Math.round(factor + 1); //maybe instead of + 1, it should be factor * 10% of price, or if price is 1, factor + 1?
-		}
-
-		this.sell[sellResource] = Math.max(1, this.sell[sellResource]);
-
-		this.forSale = this.inventory[sellResource] - (this.upkeepCost[sellResource] || 0);
-		if(this.hasExpand() ) {
-			// save expand resource if preparing for expand
-			if(this.expandReady[sellResource]) {
-				this.forSale -= this.expandReady[sellResource];
-			}
-		}
-		this.forSale = Math.max(this.forSale, 0);
-	}
-	give(firm, resource, amount) {
-		firm.inventory[resource] += amount;
-		this.inventory[resource] -= amount;
-	}
-	has(resource, amount) {
-		return this.inventory[resource] >= amount;
-	}
-	hasAll(resources) {
-		for(let resource in resources) {
-			if(this.inventory[resource] < resources[resource]) {
-				return false;
-			}
-		}
-		return true;
-	}
-	hasAny(resources) {
-		for(let resource in resources) {
-			if(this.inventory[resource] >= resources[resource]) {
-				return true;
-			}
-		}
-		return false;
-	}
-	hasExpand() {
-		return this.hasAll(this.expandRequirement);
-	}
-	hasUpkeep() {
-		return this.hasAll(this.upkeepCost);
-	}
-	pay(resource, amount) {
-		this.inventory[resource] -= amount;
-	}
-	payAll(resources) {
-		// assumes they have enough. check with hasAll()
-		for(resource in resources) {
-			this.inventory[resource] -= resources[resource];
-		}
-	}
-	gain(resource, amount) {
-		this.inventory[resource] += amount;
-	}
-	gainAll(resources) {
-		for(resource in resources) {
-			this.inventory[resource] += resources[resource];
-		}
-	}
-	type() {
-		return this.constructor.name.toLowerCase();
-	}
-	str() {
-		return this.type() + '#' + this.firmNum;
-	}
-
-	getSellOrders() {
-		let sellResource = Object.keys(this.sell)[0];
-		let sellPrice = this.sell[sellResource];
-		let amount = this.forSale;
-		return [new Order('sell', this.firmNum, sellResource, sellPrice, amount)];
-		// returns array with 1 element.
-		// eventually players will be able to sell multiple resources at once and we want to support
-		// getting multiple sell orders, just like buy orders will have multiple
-	}
-	getBuyOrders(avgPrices) {
-
-		// take into account amount of resources available?
-		// take into account what resources the firm already has?
-		// take into account if it's worht it to produce?
-
-		let moneyAvailable = Math.max(this.inventory['money']-this.moneyToSave, 0);
-		if(moneyAvailable==0) return [];
-
-		let sellResource = Object.keys(this.sell)[0];
-		let sellPrice = this.sell[sellResource];
-		let amountPerProduction = this.producedGoods[sellResource];		
-		let moneyEarnedFromProduce = amountPerProduction * sellPrice;
-
-		let costsPerProduce = {};
-		let totalCostPerProduce = 0;
-		for(let input of Object.keys(this.produceCost) ) {
-			let inputProduceCost = this.produceCost[input];
-			let inputAvgCost = avgPrices[input];
-			if(inputAvgCost==-1 || inputAvgCost==0) return [];
-			costsPerProduce[input] = inputProduceCost * inputAvgCost;
-			totalCostPerProduce += costsPerProduce[input];
-		}
-
-		let orders = [];
-
-		for(let input of Object.keys(this.produceCost) ) {
-			// normalizedInputCost is [0,1] weight of
-			// what percentage of the cost of producing should be from this input
-			let normalizedInputCost = costsPerProduce[input] / totalCostPerProduce;
-			let buyPrice = Math.floor(normalizedInputCost * moneyEarnedFromProduce);
-			let buyResource = input;
-
-			let buyAmount = Math.floor(moneyAvailable * normalizedInputCost  / buyPrice);
-			if(buyAmount == 0) continue;
-
-			orders.push(new Order('buy', this.firmNum, buyResource, buyPrice, buyAmount) );
-		}
-
-		return orders;
-
-		// note: doesn't take into account upkeep cost or expansion stuff
-	}
-}
 
 // make all the firms :)
-let AIs = [];
-let currentFirmNum = 0;
 const startFirms = 100;
 // const startFirms = 50;
 function start() {
@@ -307,21 +69,26 @@ function start() {
 }
 
 // const MAX_FIRMS = 300;
-//const MAX_FIRMS_PER_TYPE = 100;
+// const MAX_FIRMS_PER_TYPE = 100;
+
 const MAX_LIMITER = 10;
 const LIMITER_TYPE = 'farm'
 
+// needs to be overridden after all firm classes are defined
+// so newFirm can be called
+Firm.addChildFirm = ()=> newFirm(this.type(), this.sell[Object.keys(this.sell)[0] ]);
+
 // can be called with firm type, if not random firm type
-function newFirm(firmType, sellPrice=10) {
-	// if(currentFirmNum>=MAX_FIRMS)
-	// 	return false;
+export function newFirm(firmType, sellPrice=10) {
+	// if(currentFirmNum>=MAX_FIRMS) return false;
 
 	if(!firmType)
-		firmType = 'mine smith forester farm mill baker refinery mint'.split(' ')[random(0,7)];
+		firmType = FIRMS[random(0,7)];
 
-	if(getFirmCount(LIMITER_TYPE)>=MAX_LIMITER && firmType == LIMITER_TYPE) //set whatever the limiter is here
-	// if(getFirmCount(firmType)>=MAX_FIRMS_PER_TYPE)
+	if(getFirmCount(LIMITER_TYPE, AIs) >= MAX_LIMITER && firmType == LIMITER_TYPE) {
+	// if(getFirmCount(firmType, AIs) >= MAX_FIRMS_PER_TYPE) {
 		return false;
+	}
 
 	if(firmType == 'forester')
 		AIs[currentFirmNum] = new Forester(sellPrice);
@@ -344,10 +111,16 @@ function newFirm(firmType, sellPrice=10) {
 }
 
 //  tick stuff
-let ticks = 0;
-let activity = 0;
-let prevActivity = 0;
-const TRADE_INTERVAL = 3;
+
+export let activity = 0;
+export let prevActivity = 0;
+
+export function addActivity(val) {
+	activity += val;
+}
+
+export let ticks = 0;
+
 function tick(overridePause=false) {
 	if(paused && !overridePause) return;
 
@@ -390,88 +163,7 @@ function tick(overridePause=false) {
 	ticks++;
 	//updates the current season
 	if(ticks % SEASON_LENGTH == 0) {
-		changeSeason();
-		// console.log(currentSeason);
+		nextSeason();
 	}
 	display(AIs, ticks%TRADE_INTERVAL==0);
-}
-
-// Utility
-function random(min, max) {
-	return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
-// https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-function shuffle(a) {
-	let j, x, i;
-	for(i = a.length - 1; i > 0; i--) {
-		j = Math.floor(Math.random() * (i + 1) );
-		x = a[i];
-		a[i] = a[j];
-		a[j] = x;
-	}
-	return a;
-}
-
-// https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
-function normal() {
-	let u = 0, v = 0;
-	while(u === 0) u = Math.random(); // converting [0,1) to (0,1)
-	while(v === 0) v = Math.random();
-	return Math.sqrt(-2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v);
-}
-function normal01() {
-	let tmp = 0.33*normal()+0.5;
-	return tmp < 0 ? 0 : tmp > 1 ? 1 : tmp;
-}
-
-function print(str) {
-	console.log('Tick:', ticks, '-', str);
-}
-
-function getFirmCount(type) {
-	let count = 0;
-	for(firm in AIs) {
-		if(AIs[firm] && AIs[firm].type()==type)
-			count++;
-	}
-	return count;
-}
-
-// note: currently unused. remove this comment when used
-function subtractResources(resources1, resources2) {
-	let rtn = {};
-
-	// input checking
-	for(resource in resources2) {
-		if(!(resource in resources1) ) {
-			console.error('Attempt to subtract resources that don\'t exist');
-			console.error(resources1);
-			console.error(resources2);
-		}
-	}
-
-	for(resource in resources1) {
-		if(resource in resources2) {
-			rtn[resource] = resources1[resource] - resources2[resource];
-		}
-		else {
-			rtn[resource] = resources1[resource];
-		}
-	}
-	return rtn;
-}
-function subtractAllFrom(resourceName, resources) {
-	// note: returns a copy
-	// note: if resourceName isn't in resources, no worries, just returns copy of resources
-	let rtn = {};
-	for(resource in resources) {
-		if(resource==resourceName) {
-			rtn[resource] = 0;
-		}
-		else {
-			rtn[resource] = resources[resource];
-		}
-	}
-	return rtn;
 }

@@ -1,0 +1,41 @@
+Mint:
+The mint class actually isn't special. It will just not sell anything
+I imagine this working as each coin being individually molded metal like a piece of art, with
+very fine artwork making it valuable. Therefore, it will require metal and a large amount of food
+
+For hosting a server on localhost (for modules to work):
+cd to folder
+py -m http.server
+in browser: localhost:8000
+
+on documenting functions:
+https://jsdoc.app/index.html#block-tags
+https://gomakethings.com/whats-the-best-way-to-document-javascript/
+https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/javascript/
+
+todo: organize below stuff:
+
+this.sell[sellResource] += Math.round(factor + 1); //maybe instead of + 1, it should be factor * 10% of price, or if price is 1, factor + 1?
+
+function productionStrat(firm) { // and the firm would also be an argument
+	switch(firm.productionOrder) {
+		case 'on':
+			// console.log('here a firm would act normally but not check to reproduce or do trading');
+			firm.productionOrder = 'on';
+			break;
+
+		case 'off':
+			// firm will do nothing and not pay upkeep
+			// console.log('firm would do nothing');
+			firm.productionOrder = 'off';
+			break;
+
+		default: // why isn't this recognising null when I call it with that argument in the paramater
+			firm.productionOrder = 'auto';
+			// console.log('This firm is an AI ' +  firm.productionOrder);
+			// console.log('This firm is an AI, so it would follow all AI procedures. here we would call doProduction and trade and upkeep etc.');
+
+		/* we could also semi-easily create a case where a firm does half its production for like .6 * the resources,
+		or potentially produce more output for higher input costs (again loosing efficency). that would simulate a real life production curve*/
+	}
+}

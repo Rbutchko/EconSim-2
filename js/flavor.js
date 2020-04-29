@@ -1,4 +1,4 @@
-const FLAVOR = {
+export const FLAVOR = {
 	bread: 'Lipsum',
 	ore: 'Lipsum',
 	lumber: 'Lipsum',
