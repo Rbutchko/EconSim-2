@@ -1,5 +1,10 @@
 todo3
 
+- update/fix CPU get buy order logic with the good stuff, fix the economy
+- rename AIs variable (yup seriously)
+- fix up player up and get functions set up
+- improve UI with all the ideas (organize tabs, click on a resource, firm, or season, etc)
+
 UI ideas
 	you focus on a firm or resource and it opens it
 		flavor on bottom
