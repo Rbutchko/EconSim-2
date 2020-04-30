@@ -7,7 +7,7 @@
 * Updates firm list and economy information
 */
 
-import { capitalize, formatBool, round } from './util.js';
+import { capitalize, formatBool, round, RESOURCE_TYPES } from './util.js';
 import { getCurrentSeason } from './events.js';
 import { AIs, numBankrupt } from './firm.js';
 import { activity, ticks, prevActivity } from './main.js';
@@ -62,11 +62,15 @@ export function display(firms, doDrawChart=false) {
 	$('#display').html(tmpHTML);
 
 	tmpHTML = 'Prices: ';
-	for(let resource in avgPrices) {
-		if(resource == 'money') continue;
-		avgPrices[resource].price = round(avgPrices[resource].sum / avgPrices[resource].count);
-		tmpHTML += getSprite(resource) + capitalize(resource) + 
-			' : ' + avgPrices[resource].price + ' | ';
+	for(let resource of RESOURCE_TYPES) {
+		if(!avgPrices[resource]) {
+			avgPrices[resource] = {price: 0, sum: 0, count: 0};
+		}
+		else {
+			avgPrices[resource].price = round(avgPrices[resource].sum / avgPrices[resource].count);
+			tmpHTML += getSprite(resource) + capitalize(resource) + 
+				' : ' + avgPrices[resource].price + ' | ';
+		}
 	}
 	$('.prices').html(tmpHTML);
 

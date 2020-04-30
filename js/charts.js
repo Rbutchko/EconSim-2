@@ -73,6 +73,7 @@ export function drawChart(avgPrices) {
 	}
 
 	let rows = [];
+	console.log(prevPrices);
 	for(let i=0; i<prevPrices.length; i++) {
 		let tmp = [i];
 		for(let resource of RESOURCE_TYPES) {
@@ -82,6 +83,7 @@ export function drawChart(avgPrices) {
 			* @bug @todo prevPrices[i][resource] is undefined
 			* if prevPrices doesn't have that resource (not enough firms)
 			*/
+			console.log(i, resource);
 			tmp.push(prevPrices[i][resource].price);
 		}
 		rows.push(tmp);

@@ -428,6 +428,7 @@ export class Firm {
 	* @todo (maybe) take into account the resources the firm already has
 	* @see notes.txt for why this might be a bad idea 
 	* @todo take into account if the firm would profit off of production
+	* for now, not necessary
 	* @todo take into account upkeep cost and expansion
 	* 
 	* Splits the money available into the resources it needs to produce
@@ -440,6 +441,18 @@ export class Firm {
 	getBuyOrders(priceInfo) {
 		let moneyAvailable = Math.max(this.inventory.money-this.moneyToSave, 0);
 		if(moneyAvailable==0) return [];
+
+		// set upkeepResourcesToBuy to any resources missing from upkeep cost
+		let upkeepResourcesToBuy = {};
+		if(!this.hasUpkeep() ) {
+			for(let resource in this.upkeepCost) {
+				if(!this.has(resource, this.upkeepCost[resource]) ) {
+					let amount = this.upkeepCost[resource] - this.inventory[resource];
+					// buy the resource
+					upkeepResourcesToBuy[resource] = amount;
+				}
+			}
+		}
 
 		let sellResource = Object.keys(this.sell)[0];
 		let sellPrice = this.sell[sellResource];
@@ -509,6 +522,14 @@ export class Firm {
 				if(o.amount > maxProduce * this.produceCost[o.resource]) {
 					o.amount = maxProduce * this.produceCost[o.resource];
 				}
+			}
+		}
+
+		// add in the upkeep resources to the purchase
+		// note: price is the same as calculated for production
+		for(let o of orders) {
+			if(upkeepResourcesToBuy[o.resource]) {
+				o.amount += upkeepResourcesToBuy[o.resource];
 			}
 		}
 
