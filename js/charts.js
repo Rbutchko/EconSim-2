@@ -76,7 +76,7 @@ export function drawChart(avgPrices) {
 	for(let i=0; i<prevPrices.length; i++) {
 		let tmp = [i];
 		for(let resource of RESOURCE_TYPES) {
-			if(! $('#'+resource+'-check').is(':checked') ) continue;			
+			if(! $('#'+resource+'-check').is(':checked') ) continue;
 			tmp.push(prevPrices[i][resource].price);
 		}
 		rows.push(tmp);
