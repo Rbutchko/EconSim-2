@@ -7,7 +7,7 @@
 * Firm subtypes are defined in firms.js
 */
 
-import { random, normal01, subtractAllFrom } from './util.js';
+import { random, normal01, subtractAllFrom, EMPTY_INVENTORY } from './util.js';
 import { getSeasonModifier } from './events.js';
 import { Order } from './orders.js';
 
@@ -35,16 +35,10 @@ export class Firm {
 		* The resources at the firm's disposal
 		* Note: Player firms all share the same inventory
 		*/
-		this.inventory = {
-			'money' :  startInventory.money  || 0,
-			'bread' :  startInventory.bread  || 0,
-			'ore'   :  startInventory.ore    || 0,
-			'lumber':  startInventory.lumber || 0,
-			'metal' :  startInventory.metal  || 0,
-			'wheat' :  startInventory.wheat  || 0,
-			'flour' :  startInventory.flour  || 0,
-			'tools' :  startInventory.tools  || 0
-		};
+		this.inventory = Object.assign({}, EMPTY_INVENTORY);
+		for(let resource in startInventory) {
+			this.inventory[resource] = startInventory[resource];
+		}
 
 		/**
 		* @property {Number} firmNum
