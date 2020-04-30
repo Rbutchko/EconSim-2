@@ -1,169 +1,162 @@
-import { Mine, Smith, Forester, Farm, Mill, Baker, Refinery, Mint } from './firms.js';
-import { Firm, AIs, currentFirmNum, numBankrupt, TRADE_INTERVAL } from './firm.js';
+/**
+* @author justingolden21
+* imported by display, market
+* 
+* Defines the main game logic
+* Contains logic for initialization, tick, adding a firm, and activity information
+*/
+
 import { random, getFirmCount, FIRMS } from './util.js';
+import { nextSeason, SEASON_LENGTH } from './events.js';
+import { Firm, AIs, currentFirmNum, numBankrupt, TRADE_INTERVAL } from './firm.js';
+import { Mine, Smith, Forester, Farm, Mill, Baker, Refinery, Mint } from './firms.js';
+
+import { paused } from './ui.js';
 import { setupPlayer } from './player.js';
+import { fillPlayerInputTable } from './player-ui.js';
 import { display } from './display.js';
 import { manageTransacitons } from './market.js';
-import { nextSeason, SEASON_LENGTH } from './events.js';
 
-// setting stuff up: ticks, buttons, key listeners
-window.onload = ()=> {
-	start();
-	// window.setInterval(tick, 100);
-	// window.setInterval(tick, 500);
-	window.setInterval(tick, 1000);
-	$('#pause-btn').click( ()=> {
-		paused = !paused;
-		if(paused)
-			$('#pause-btn').html('Resume <i class="fas fa-play"></i>');
-		else
-			$('#pause-btn').html('Pause <i class="fas fa-pause"></i>');
-	});
-	$('#tick-btn').click( ()=> {
-		tick(true);
-	});
-	$('#top-btn').click( ()=> {
-		document.body.scrollTop = 0;
-		document.documentElement.scrollTop = 0;
-	});
-	$('.buy-sell-switch').change( (evt)=> {
-		let isChecked = $(evt.target).is(':checked');
-		$(evt.target).parent().find('label').html(isChecked ? 'Sell' : 'Buy');
-	})
-}
+/**
+* Called on window load
+* Creates all the firms, and sets up player
+* Then displays information before first tick
+*/
+export function start() {
+	const startFirms = 100;
+	// const startFirms = 50;
 
-// When the user scrolls down 100px from the top of the document, show the button
-window.onscroll = function() {
-	if(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-		$('#top-btn').fadeIn();
-	}
-	else {
-		$('#top-btn').fadeOut();
-	}
-};
-
-let paused = false;
-// let paused = true;
-document.onkeydown = (evt)=> {
-	evt = evt || window.event;
-	if(evt.keyCode == 27) { // esc
-		$('#pause-btn').click();
-	}
-	if(evt.keyCode == 84) { // t
-		tick(true);
-	}
-};
-
-
-// make all the firms :)
-const startFirms = 100;
-// const startFirms = 50;
-function start() {
 	for(let i=0; i<startFirms; i++) {
 		newFirm();
 	}
 
 	setupPlayer();
+	fillPlayerInputTable();
 
 	display(AIs, true);
 }
 
-// const MAX_FIRMS = 300;
-// const MAX_FIRMS_PER_TYPE = 100;
-
-const MAX_LIMITER = 10;
-const LIMITER_TYPE = 'farm'
-
 // needs to be overridden after all firm classes are defined
 // so newFirm can be called
-Firm.addChildFirm = ()=> newFirm(this.type(), this.sell[Object.keys(this.sell)[0] ]);
+Firm.addChildFirm = ()=> newFirm(this.type(), Object.values(this.sell)[0]);
 
-// can be called with firm type, if not random firm type
+/**
+* Returns a new firm of the given type
+* @param {String} type - The type of the given firm, ie. 'Smith'
+* @param {Number} sellPrice - The default sell price for the newly created firm
+* @return {Object - Firm} - The newly created firm
+*/
+export function getNewFirmOfType(type, sellPrice) {
+	switch(type) {
+		case 'forester':
+			return new Forester(sellPrice);
+		case 'smith':
+			return new Smith(sellPrice);
+		case 'farm':
+			return new Farm(sellPrice);
+		case 'mine':
+			return new Mine(sellPrice);
+		case 'mint':
+			return new Mint(sellPrice);
+		case 'baker':
+			return new Baker(sellPrice);
+		case 'refinery':
+			return new Refinery(sellPrice);
+		case 'mill':
+			return new Mill(sellPrice);
+		default:
+			console.error(`Type ${type} does not exist`);
+			return null;
+	}
+}
+
+/**
+* Creates a new CPU firm of the given type
+* @param {String} firmType - The firm type ('Smith', 'Baker', etc)
+* If no type given, a random one will be selected
+* @param {Number} sellPrice - The starting sell price for the firm
+* Often inherited from its parent upon expansion
+* @return {Boolean} success - True if firm was creates false otherwise
+* @todo Weigh random firms unequally
+*/
 export function newFirm(firmType, sellPrice=10) {
+	if(!firmType) firmType = FIRMS[random(0,7)];
+
+	// const MAX_FIRMS = 300;
+	// const MAX_FIRMS_PER_TYPE = 100;
+	const MAX_LIMITER = 10;
+	const LIMITER_TYPE = 'farm';
+
 	// if(currentFirmNum>=MAX_FIRMS) return false;
-
-	if(!firmType)
-		firmType = FIRMS[random(0,7)];
-
-	if(getFirmCount(LIMITER_TYPE, AIs) >= MAX_LIMITER && firmType == LIMITER_TYPE) {
+	if(getFirmCount(firmType == LIMITER_TYPE && LIMITER_TYPE, AIs) >= MAX_LIMITER) {
 	// if(getFirmCount(firmType, AIs) >= MAX_FIRMS_PER_TYPE) {
 		return false;
 	}
 
-	if(firmType == 'forester')
-		AIs[currentFirmNum] = new Forester(sellPrice);
-	else if(firmType == 'smith')
-		AIs[currentFirmNum] = new Smith(sellPrice);
-	else if(firmType == 'farm')
-		AIs[currentFirmNum] = new Farm(sellPrice);
-	else if(firmType == 'mine')
-		AIs[currentFirmNum] = new Mine(sellPrice);
-	else if(firmType == 'mint')
-		AIs[currentFirmNum] = new Mint(sellPrice);
-	else if(firmType == 'baker')
-		AIs[currentFirmNum] = new Baker(sellPrice);
-	else if(firmType == 'refinery')
-		AIs[currentFirmNum] = new Refinery(sellPrice);
-	else
-		AIs[currentFirmNum] = new Mill(sellPrice);
-
+	AIs[currentFirmNum] = getNewFirmOfType(firmType, sellPrice);
 	return true;
 }
 
-//  tick stuff
-
+// amount sold per tick, used for display
 export let activity = 0;
 export let prevActivity = 0;
-
 export function addActivity(val) {
 	activity += val;
 }
 
+/**
+* Perform one tick (unit of time)
+* @param {Boolean} overridePause - If true, paused property will be ignored
+* Used by tick button to run one tick, even with the game paused
+* Ticks each firm, then removes bankrupt firms
+* Performs trading if within its interval
+* Then updates ticks, seasons, and display
+*/
 export let ticks = 0;
-
-function tick(overridePause=false) {
+export function tick(overridePause=false) {
 	if(paused && !overridePause) return;
 
+	// tick each firm
 	for(let i=0; i<AIs.length; i++) {
-		if(AIs[i])
-			AIs[i].tick();
+		if(AIs[i]) AIs[i].tick();
 	}
 
+	// remove bankrupt firms
 	for(let i=0; i<AIs.length; i++) {
 		if(AIs[i] && AIs[i].bankrupt) {
-			console.log('removed bankrupt AI of type', AIs[i].type() + ' making ', numBankrupt + ' bankrupt firms.');
-			AIs[i] = undefined;
+			console.log(`removed bankrupt AI of type ${AIs[i].type()}, making ${numBankrupt} bankrupt firms.`);
+			AIs[i] = null;
 		}
 	}
 
-	if(ticks % TRADE_INTERVAL == 0) { //Can introduce sharding here by changing this to be a constant set in each firm, also change so firm inherits that as well as sell price
+	// perform trading
+	if(ticks % TRADE_INTERVAL == 0) { 
 		prevActivity = activity;
 		activity = 0;
-		// doTrades(AIs.filter(AI => AI && !AI.bankrupt) );
-		// doTrades(AIs.filter(AI => AI!=undefined) ); // add this back for stable version
 
-
+		// obtain sell orders
 		let sellOrders = [];
-		let tradingFirms = AIs.filter(AI => AI != undefined && AI.productionOrder != 'off');
+		let tradingFirms = AIs.filter(AI => AI != null && AI.productionOrder != 'off');
 		for(let firm of tradingFirms) {
 			let newOrders = firm.getSellOrders();
 			for(let order of newOrders) {
 				sellOrders.push(order);
 			}
 		}
+		// market tick
 		manageTransacitons(sellOrders, tradingFirms);
 
-
+		// adjust prices upon trade completion
 		for(let i=0; i<AIs.length; i++) {
-			if(AIs[i])
-				AIs[i].adjust();
+			if(AIs[i]) AIs[i].adjust();
 		}
 	}
-	
+
+	// update tick count and current season	
 	ticks++;
-	//updates the current season
-	if(ticks % SEASON_LENGTH == 0) {
-		nextSeason();
-	}
+	if(ticks % SEASON_LENGTH == 0) nextSeason();
+
+	// display the new information
+	// draw chart only if we traded
 	display(AIs, ticks%TRADE_INTERVAL==0);
 }

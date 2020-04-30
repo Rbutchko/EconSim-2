@@ -1,5 +1,20 @@
+/**
+* @author justingolden21
+* imported by display, player-ui
+* 
+* Holds sprite data for various icons
+* Defines a wrapper function which provides the HTML for an icon
+*/
+
 // SGI_46
 // SGI_177
+/**
+* @param {String} name - The name of the icon (a resource, firm, or season)
+* @param {Number} size - The size of the icon. Img has a CSS class for sizes
+* xs, sm, md, lg, xl
+*/
+export const getSprite = (name, size='sm') => 
+	'<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';
 
 const icons = {
 	'money' : 'SGI_59',
@@ -25,6 +40,3 @@ const icons = {
 	'summer':'SGI_134',
 	'fall'  :'SGI_51'
 };
-
-export const getSprite = (name, size='sm') => 
-	'<img class="icon-' + size + '" src="img/icons/' + icons[name] + '.png">';

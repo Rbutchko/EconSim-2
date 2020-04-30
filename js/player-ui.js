@@ -1,39 +1,53 @@
+/**
+* @author justingolden21
+* imported by display, main
+* 
+* Controls most operation regarding UI for the player object
+* drawPlayerUI is called every time the display is updated
+* fillPlayerInputTable is called upon page load in start() in main
+*/
+
 import { RESOURCE_TYPES, FIRMS, capitalize } from './util.js';
 import { getSprite } from './sprites.js';
 import { player, getCountOfPlayerFirms } from './player.js';
 
-$( ()=> {
-	fillPlayerInputTable();
-});
-
-// called in display.js
+/**
+* Draws the updated player UI with the player's current firms and inventory
+* Called in display.js every UI update
+* @todo: This would be made more efficient as only certain parts of the UI need updating
+* and frequent updates to the DOM can be computationally expensive
+*/
 export function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
 	for(let firm of FIRMS) {
-		// console.log(firm);
-		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' + getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
-		// console.log(firm);
+		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' 
+			+ getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
 	}
 	$('#player-firms').html(tmpHTML+'</div>');
-	// $('#player-firms').append('TODO: click on firm and open it. display flavor, buy/sell buttons, graphs, on/off firm toggle');
-	// $('#player-firms').append('<br>TODO: pie chart for types of firms');
-	// $('#player-firms').append('<br>TODO: what the firm inputs and outputs');
-	// $('#player-firms').append('<br>TODO: list of all firms of that type, view their inventory and manage them, buy/sell, etc');
+	// @todo: click on a firm to open it
+	// and display its flavor, buttons to buy/sell the firm, graphs, and toggle the firm's productionOrder status
+	// @todo: pie chart display for firm types
+	// @todo: view what the firm inputs and outputs
+	// @todo: toggle switches to sort firms by type
 
 	tmpHTML = '<div class="row">';
 	for(let item in player.inventory)
 		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + player.inventory[item] + getSprite(item, 'md') + '<br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
-	// $('#player-inventory').append('TODO: click on resource and open it. display flavor, price, graphs');
-	// $('#player-inventory').append('<br>TODO: pie chart for types of resources');
-	// $('#player-inventory').append('<br>TODO: what firms produce or require this resource');
+	// @todo: click on a resource to open it
+	// and display its flavor, price information, and graphs
+	// pie chart of types of resources
+	// display which firms produce or require this resource
 }
 
-function fillPlayerInputTable() {
+/**
+* Draws the player's trade table UI dynamically, creating a table entry for each resource
+* Called once the page is loaded
+*/
+export function fillPlayerInputTable() {
 	let tmpHTML = '<tr><td>Resource</td><td></td><td>Buy/Sell</td><td>Amount</td><td>Price</td></tr>';
 	for(let item of RESOURCE_TYPES) {
-		// console.log(item);
-		// if(item=='money') continue;
+		// note: money is skipped (cannot buy or sell money)
 		tmpHTML += '<tr>' +
 			'<td>' + capitalize(item) + '</td>' +
 			'<td>' + getSprite(item) + '</td>' +
@@ -51,7 +65,5 @@ function fillPlayerInputTable() {
 			'</td>' +
 		'</tr>';
 	}
-
 	$('#trade-table').html(tmpHTML);
-	// $('#trade-table').append('<br>TODO: add controls for transfering to reserve, display reserve (could be in new tab)');
 }

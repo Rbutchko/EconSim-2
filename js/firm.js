@@ -1,6 +1,10 @@
 /**
 * @author justingolden21
 * imported by display, firms, and main
+* 
+* Contains the list of firms, simple firm related information, and the Firm class
+* New Firms are created by newFirm in main, which creates a new Firm of specific subtype
+* Firm subtypes are defined in firms.js
 */
 
 import { random, normal01, subtractAllFrom } from './util.js';

@@ -1,6 +1,9 @@
 /**
 * @author justingolden21
 * imported by charts, display, firm, main, market, player-ui, and player
+*
+* Provides utility functions for use in other scripts
+* Most functions are either mathematical, firm, resource, or string related
 */
 
 /**

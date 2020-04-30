@@ -13,6 +13,7 @@ UI ideas
 	display economy basics such as prices etc on stock ticker on top
 	every firm has a little round box that displays how much it's buying, for what cost, and how much it's selling, for what cost
 	clicking on firm shows all the stats (constants like number of what it produces and takes in)
+	give player a reserve? new modal?
 
 Economy improvements
 	fix getBuyOrders for CPUs so it takes more info into account, like in previous buy and trade scripts

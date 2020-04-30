@@ -1,15 +1,26 @@
-/* firms.js
-defines the 8 firm classes that extend the firm class
-firm types only differ in their variable values; functions are the same
-
+/**
+* @author rbutchko
+* imported by main, player
+* 
+* Defines the 8 Firm classes which extend Firm
+* Firm types differ only in their class property variables
+* Such as starting inventory, and upkeep, production, and expansion information
+* Functions are all inherited from the Firm class
 */
-
-// note: currently none of the upkeep costs are things that they sell
-// note: expandReady must be > expandCost
-// start money and expandCost money should be equal (keeps amount of money constant)
 
 import {Firm} from './firm.js';
 
+/**
+* Note: Currently, none of the upkeep costs are things that they sell
+* Note: expandReady must be > expandCost
+* Note: Starting money and expandCost money should be equal (keeps amount of money constant)
+*/
+
+/**
+* @class Mine
+* Inputs: Bread, Tools
+* Outputs: Ore
+*/
 export class Mine extends Firm {
 	constructor(sellPrice) {
 		super({'money':4000, 'bread':180, 'tools':80}); // starting inventory
@@ -18,8 +29,8 @@ export class Mine extends Firm {
 
 		this.upkeepCost = {'tools': 3};
 
-		this.produceCost = {'bread': 30, 'tools': 10}; // what it takes for this to produce
-		this.producedGoods = {'ore': 110}; // what this is producing
+		this.produceCost = {'bread': 30, 'tools': 10}; // resource cost to produce
+		this.producedGoods = {'ore': 110}; // resources produced
 		this.variance = 20; // amount production will vary from the value set in producedGoods
 
 		// requirement before firm starts trying to accumulate resources necessary to expand
@@ -34,6 +45,11 @@ export class Mine extends Firm {
 	}
 }
 
+/**
+* @class Smith
+* Inputs: Metal, Lumber
+* Outputs: Tools
+*/
 export class Smith extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'metal': 90, 'lumber': 60, 'bread': 40});
@@ -52,6 +68,11 @@ export class Smith extends Firm {
 	}
 }
 
+/**
+* @class Forester
+* Inputs: Bread, Tools
+* Outputs: Lumber
+*/
 export class Forester extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 80, 'tools': 40});
@@ -70,6 +91,11 @@ export class Forester extends Firm {
 	}
 }
 
+/**
+* @class Farm
+* Inputs: Bread, Tools
+* Outputs: Wheat
+*/
 export class Farm extends Firm {
 	constructor(sellPrice) {
 		super({'money': 2000, 'bread': 80, 'tools': 20});
@@ -88,6 +114,11 @@ export class Farm extends Firm {
 	}
 }
 
+/**
+* @class Mill
+* Inputs: Wheat, Bread
+* Outputs: Flour
+*/
 export class Mill extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 80, 'wheat': 1200, 'tools': 10});
@@ -106,6 +137,11 @@ export class Mill extends Firm {
 	}
 }
 
+/**
+* @class Baker
+* Inputs: Flour, Lumber
+* Outputs: Bread
+*/
 export class Baker extends Firm {
 	constructor(sellPrice) {
 		super({'money': 4000, 'bread': 20,'flour': 240, 'tools': 10, 'lumber': 30});
@@ -124,6 +160,11 @@ export class Baker extends Firm {
 	}
 }
 
+/**
+* @class Refinery
+* Inputs: Bread, Ore
+* Outputs: Metal
+*/
 export class Refinery extends Firm {
 	constructor(sellPrice) {
 		super({'money': 3000, 'bread': 60, 'tools': 5, 'ore': 240, 'tools': 10,'lumber': 10,});
@@ -142,6 +183,11 @@ export class Refinery extends Firm {
 	}
 }
 
+/**
+* @class Mint
+* Inputs: Bread, Metal
+* Outputs: Money
+*/
 export class Mint extends Firm {
 	constructor(sellPrice) {
 		super({'money': 4000, 'bread': 120, 'tools': 10, 'metal': 120, 'lumber': 10,});

@@ -60,6 +60,10 @@ hr {
 	width: 64px;
 	border-radius: 8px;
 }
+.icon-xl {
+	width: 72px;
+	border-radius: 9px;	
+}
 #trade-table td {
 	padding: 8px;
 	padding-top: 4px;

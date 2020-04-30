@@ -1,6 +1,10 @@
 /**
 * @author justingolden21
 * imported by display, firm, and main
+* 
+* Contains seasons and various events
+* SEASON_LENGTH and nextSeason provide the ability to check and progress the next season
+* getCurrentSeason and getSeasonModifier provide season name and modifiers
 */
 
 /**

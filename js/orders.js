@@ -1,6 +1,10 @@
 /**
 * @author justingolden21
 * imported by firm, player
+* 
+* Provides the order class for organizing market trading
+* New Orders are created by firms' getBuyOrders and getSellOrders functions
+* Those Orders are received by and handled in main and market
 */
 
 /**

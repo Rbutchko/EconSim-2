@@ -15,7 +15,13 @@ https://make.wordpress.org/core/handbook/best-practices/inline-documentation-sta
 
 todo: organize below stuff:
 
+
+// let buyIdxs = [...Array(currentBuys.length).keys()]; // list of nums 0 to n-1
+// shuffle(buyIdxs);
+		
 this.sell[sellResource] += Math.round(factor + 1); //maybe instead of + 1, it should be factor * 10% of price, or if price is 1, factor + 1?
+
+if(ticks % TRADE_INTERVAL == 0) { //Can introduce sharding here by changing this to be a constant set in each firm, also change so firm inherits that as well as sell price
 
 function productionStrat(firm) { // and the firm would also be an argument
 	switch(firm.productionOrder) {
