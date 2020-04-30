@@ -425,7 +425,8 @@ export class Firm {
 	* @return {Object Array - Order Array} orders - the Orders the firm wishes to place
 	* Returns [] if the firm has no money to spend or there is insufficient pricing data
 	* 
-	* @todo take into account the resources the firm already has
+	* @todo (maybe) take into account the resources the firm already has
+	* @see notes.txt for why this might be a bad idea 
 	* @todo take into account if the firm would profit off of production
 	* @todo take into account upkeep cost and expansion
 	* 
