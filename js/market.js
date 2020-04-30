@@ -102,11 +102,11 @@ export function manageTransacitons(sellOrders, buyers) {
 	// Obtain price info and buy orders
 
 	// Do NOT cut paste this inside the loop below (inefficient)
-	let avgPrices = getAvgPrices(sellOrders);
+	let priceInfo = getPriceInfo(sellOrders);
 
 	let buyOrders = [];
 	for(let buyer of buyers) {
-		let orders = buyer.getBuyOrders(avgPrices);
+		let orders = buyer.getBuyOrders(priceInfo);
 		for(let order of orders) {
 			buyOrders.push(order);
 		}
@@ -187,30 +187,30 @@ function isValidOrder(o) {
 * If none of a resource is for sale, it will have price -1
 * @todo Currently uses mean. Median would be less skewed and should be used in the future
 */
-function getAvgPrices(sellOrders) {
+function getPriceInfo(sellOrders) {
 	let priceInfo = {};
 	for(let resource of RESOURCE_TYPES) {
 		priceInfo[resource] = {
-			amountForSale: 0,
-			priceTotal: 0
+			available: 0,
+			priceTotal: 0,
+			avgPrice: 0,
 		}
 	}
 
 	for(let o of sellOrders) {
 		if(o.resource == 'money') continue;
-		priceInfo[o.resource].amountForSale += o.amount;
+		priceInfo[o.resource].available += o.amount;
 		priceInfo[o.resource].priceTotal += o.price * o.amount;
 	}
 
-	let avgPrices = {};
 	for(let resource of RESOURCE_TYPES) {
 		let info = priceInfo[resource];
-		if(info.amountForSale==0) {
-			avgPrices[resource] = -1;
+		if(info.available==0) {
+			priceInfo[resource].avgPrice = -1;
 		}
 		else {
-			avgPrices[resource] = info.priceTotal / info.amountForSale;
+			priceInfo[resource].avgPrice = info.priceTotal / info.available;
 		}
 	}
-	return avgPrices;
+	return priceInfo;
 }

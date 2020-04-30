@@ -420,7 +420,8 @@ export class Firm {
 
 	/**
 	* Receives the firm's buy orders for use in the market, given basic pricing data
-	* @param {Object - PriceData} avgPrices - the average prices of each resource this market tick
+	* @param {Object - PriceData} priceInfo - price information of each resource this market tick
+	* containts average prices and amount available
 	* @return {Object Array - Order Array} orders - the Orders the firm wishes to place
 	* Returns [] if the firm has no money to spend or there is insufficient pricing data
 	* 
@@ -436,27 +437,46 @@ export class Firm {
 	* Assumes that the firm's previous sellPrice is accurate of how much it will sell for
 	* Currently only handles production of one good (how Firms are currently implemented)
 	*/
-	getBuyOrders(avgPrices) {
+	getBuyOrders(priceInfo) {
 		let moneyAvailable = Math.max(this.inventory.money-this.moneyToSave, 0);
 		if(moneyAvailable==0) return [];
 
 		let sellResource = Object.keys(this.sell)[0];
 		let sellPrice = this.sell[sellResource];
-		let amountPerProduction = this.producedGoods[sellResource];		
+		let amountPerProduction = this.producedGoods[sellResource];
 		let moneyEarnedFromProduce = amountPerProduction * sellPrice;
 
 		let costsPerProduce = {};
 		let totalCostPerProduce = 0;
+
+		let limitingResource = '';
+		let limitingAvailable = Infinity;
+		
+		// loop through and accumulate produce cost information
 		for(let input in this.produceCost) {
 			let inputProduceCost = this.produceCost[input];
-			let inputAvgCost = avgPrices[input];
+			let inputAvgCost = priceInfo[input].avgPrice;
 			if(inputAvgCost==-1 || inputAvgCost==0) return [];
 			costsPerProduce[input] = inputProduceCost * inputAvgCost;
 			totalCostPerProduce += costsPerProduce[input];
+
+			// find which resource is limited by the amounts available
+			// relative to our produceCost of that input
+			let inputAvailable = priceInfo[input].available;
+			inputAvailable / inputProduceCost;
+			if(inputAvailable < limitingAvailable) {
+				// find limiting resource and amount available
+				limitingAvailable = inputAvailable;
+				limitingResource = input;
+			}
 		}
+
+		let limitedByAmountAvailable = false;
 
 		let orders = [];
 
+		// loop through and allocate money to production resources
+		// based off of relative input costs
 		for(let input in this.produceCost) {
 			// normalizedInputCost is [0,1] weight of
 			// what percentage of the cost of producing should be from this input
@@ -468,7 +488,28 @@ export class Firm {
 			let buyAmount = Math.floor(moneyAvailable * normalizedInputCost  / buyPrice);
 			if(buyAmount == 0) continue;
 
+			// check if we are limited by the amount available of this resource
+			if(buyResource==limitingResource) {
+				if(buyAmount==limitingAvailable) {
+					limitedByAmountAvailable = true;
+				}
+			}
+
 			orders.push(new Order('buy', this.firmNum, buyResource, buyPrice, buyAmount) );
+		}
+		
+		if(limitedByAmountAvailable) {
+			// scale down order amounts to the limiting resource
+			// maxProduce is the greatest number of times we can produce
+			// given the amount of the limiting resource available
+			let maxProduce = limitingAvailable / this.produceCost[limitingResource];
+			for(let o of orders) {
+				// if the amount is larger than the most we could need for production
+				// then decrease it to that amount
+				if(o.amount > maxProduce * this.produceCost[o.resource]) {
+					o.amount = maxProduce * this.produceCost[o.resource];
+				}
+			}
 		}
 
 		return orders;
