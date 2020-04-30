@@ -13,6 +13,10 @@ https://jsdoc.app/index.html#block-tags
 https://gomakethings.com/whats-the-best-way-to-document-javascript/
 https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/javascript/
 
+maybe firms shouldnt take into account the resources they already have when buying. several reasons:
+1. they shouldnt need to. orders are scaled down to the limiting resource anyway, so there shouldn't arise a situation where the amount of one resource is greatly disproportional to that of another for producion
+2. the firm could mistakenly allocate resources meant for upkeep or expansion for production, then be limited by those resources in the future as upkeep and expansion are prioritized each tick
+
 todo: organize below stuff:
 
 
