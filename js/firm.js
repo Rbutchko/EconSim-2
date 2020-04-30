@@ -524,7 +524,19 @@ export class Firm {
 		for(let o of orders) {
 			if(upkeepResourcesToBuy[o.resource]) {
 				o.amount += upkeepResourcesToBuy[o.resource];
+				delete upkeepResourcesToBuy[o.resource];
 			}
+		}
+
+		// remaining upkeep resources, not already in buy orders
+		// if(upkeepResourcesToBuy) { // nope
+		// if(upkeepResourcesToBuy!={}) { // nope
+		if(Object.keys(upkeepResourcesToBuy).length > 0) {
+			for(let resource in upkeepResourcesToBuy) {
+				// for remaining upkeep resources, pay 5x average
+				let buyPrice = priceInfo[resource].avgPrice * 5;
+				orders.push(new Order('buy', this.firmNum, resource, buyPrice, upkeepResourcesToBuy[resource]) );
+			}			
 		}
 
 		return orders;
