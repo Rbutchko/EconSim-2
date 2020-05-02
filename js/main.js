@@ -82,14 +82,15 @@ export function getNewFirmOfType(type, sellPrice) {
 export function newFirm(firmType, sellPrice=10) {
 	if(!firmType) firmType = FIRMS[random(0,7)];
 
-	// const MAX_FIRMS = 300;
-	// const MAX_FIRMS_PER_TYPE = 100;
 	const MAX_LIMITER = 10;
 	const LIMITER_TYPE = 'farm';
 
-	// if(currentFirmNum>=MAX_FIRMS) return false;
+	/** 
+	* check if at limit, if so, do not make a new firm. 
+	* here there is a money pit, where the resources are removed but go nowhere. 
+	* Later, these orat least the money will be collected as taxes by the nobles, and perhaps the rest refunded. 
+	*/
 	if(getFirmCount(firmType == LIMITER_TYPE && LIMITER_TYPE, AIs) >= MAX_LIMITER) {
-	// if(getFirmCount(firmType, AIs) >= MAX_FIRMS_PER_TYPE) {
 		return false;
 	}
 

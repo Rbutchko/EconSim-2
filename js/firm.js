@@ -76,6 +76,13 @@ export class Firm {
 		*/
 		this.ticks = 0;
 
+
+		// this will be set either by the player on a scale between 0 and 2, or by the buy code 
+		// if the firm is an auto, determines what percent of production they are going to make
+		// and what percent of productioncost they are going to expend
+		//perhaps new natural born firms should also inherit this from their parent firm, like price
+		this.fractionProducing = 1;
+
 		/**
 		* @property {Boolean} bankrupt
 		* If the firm is bankrupt
@@ -108,6 +115,18 @@ export class Firm {
 		this.forSale = 0;
 
 		/**
+		* @property {Bool} shouldBuyUpkeep
+		* If the firm will have to pay upkeep before the next trade day
+		* it will be set to true. Once upkeep is paid it will be set to false 
+		* Set in checkShouldBuyUpkeep() which is called in tick(), used in getBuyOrders() 
+		* to see if a firm should buy upkeep and also should buy extra of its producecost
+		*and is also used in produce to see if it should not use up all its goods
+		*[must make sure to set reserve without throwing off production]
+		* doProduction,  used in 
+		*/
+		this.shouldBuyUpkeep = false; 
+
+		/**
 		* @property {Number} moneyToSave
 		* How much money the firm refuses to spend
 		* Used in getBuyOrders() to prevent the firm from buying too much
@@ -133,11 +152,15 @@ export class Firm {
 		this.prevAmountSold = 0;
 		this.ticks++;
 
+		this.checkShouldBuyUpkeep();
+
 		if(this.ticks % UPKEEP_INTERVAL_SIZE == this.upkeepInterval) {
 			this.payUpkeep();
 		}
 
-		if(this.productionOrder == 'off') return;
+		// this way firms that are off will still pay upkeep, I think that should be true only
+		// for certain high-level firms
+		if(this.productionOrder == 'off') return; 
 
 		this.doProduction();
 
@@ -179,12 +202,29 @@ export class Firm {
 	payUpkeep() {
 		if(this.hasUpkeep() ) {
 			this.payAll(this.upkeepCost);
+			this.shouldBuyUpkeep = false;
 		}
 		else {
 			this.bankrupt = true;
 			numBankrupt++;
 		}
 	}
+
+	/**
+	* checks if the 'shouldBuyUpkeep'flag should be true. 
+	* If the firm will not have another chance to buy upkeep before 
+	* having to pay upkeep, it changes shouldBuyUpkeep to true
+	*/	
+	checkShouldBuyUpkeep() { // sets a flag if this tick a firm shouldBuyUpkeep, so that it should try to buy it's upkeep costs
+	// console.log('checking if this firm should buy upkeep');
+	let i = 0;
+		for (; i < TRADE_INTERVAL; i++) { 
+			if( (this.ticks + i) % 14  == this.upkeepInterval) { 
+				this.shouldBuyUpkeep = true; 
+				console.log("should buy upkeep");
+			}
+		}
+}
 
 	/**
 	* Attempts to produce
@@ -196,7 +236,7 @@ export class Firm {
 	* @return {Boolean} - true if production occurred, false if it failed
 	*/
 	doProduction() {
-		if(!this.hasAll(this.produceCost) ) return false;
+		// if(!this.hasAll(this.produceCost) ) return false;
 
 		// if it's trying to expand and cannot produce and maintain
 		// the resources necessary for expansion, then skip production
@@ -205,7 +245,7 @@ export class Firm {
 			// checks that the firm has enough of
 			// each resource in both expandReady and produceCost 
 			// to produce and still be able to expand
-			for(let resource in this.expandReady) {
+			for(let resource in this.expandReady) { //reconfirm this is doing something. I'm not sure it is
 				if(this.produceCost[resource] && 
 					this.inventory[resource] < this.produceCost[resource] + this.expandReady[resource]) {
 					return false;
@@ -213,9 +253,13 @@ export class Firm {
 			}
 		}
 
-		// if above checks were passed, then the firm will produce
+		// this.inventory[resource] < resources[resource]
 
-		this.payAll(this.produceCost);
+		// if above checks were passed, then the firm will produce
+		// here we see if there should be a reserve by checking shouldBuyUpkeep, and if so,
+		// change behavior accordingly. I will do that in hasFraction for now
+		// let fractionProducing = this.hasFraction(this.produceCost); 
+		this.payAll(Math.round(this.produceCost * this.fractionProducing) ); //deducting the amount that was used up
 
 		// produces all produces goods
 		// taking into account the firm's variance, firm's efficiency, and current season modifier
@@ -223,6 +267,10 @@ export class Firm {
 			let amountProduced = this.producedGoods[resource] + random(0, this.variance);
 			amountProduced *= 0.95 + 0.1*this.efficiency;
 			amountProduced *= getSeasonModifier(resource); // add current season's effect
+			amountProduced *= this.fractionProducing;
+			// adding in an increasing penalty for producting at nonoptimal value
+			//this currently has too little immediate drop off, while having the right aamount of dop off as it approaches 2 and 0
+			amountProduced *= (-.4 * Math.pow(this.fractionProducing, 2) + .8 * fractionProducing + .6); 
 			amountProduced = Math.round(amountProduced);
 
 			this.gain(resource, amountProduced);
@@ -299,6 +347,32 @@ export class Firm {
 	*/
 	has(resource, amount) {
 		return this.inventory[resource] >= amount;
+	}
+
+	/**
+	* returns the fraction of the resources listed the firm has
+	* of the most limiting reagent. 
+	* @param {Object - Inventory} resources, the resources to check
+	* @return {Number} -returns the percent of the resources listed the firm has, of the limiting item
+	*Note, maybe instead of in produce this should be called in buy logic when buy is figuring out how
+	* much to buy, and buy just sets fractionProducing there. 
+	*/
+
+	hasFraction(resources) {
+		let fractionHas2 = 0;
+		if (this.shouldBuyUpkeep == true) {
+			let reserve = true;
+		}
+		else {
+			let reserve = false;
+		}
+
+		for(let resource in resources) {
+			// if reserve is true, these should deduct upkeepCost[resource] when determining the fraction
+			let fractionHas1 = (this.inventory[resource] / resources[resource]);
+			fractionHas2 = Math.min(fractionHas1, fractionHas2, 2);
+		}
+		return fractionHas2;
 	}
 
 	/**
@@ -438,7 +512,7 @@ export class Firm {
 
 		// set upkeepResourcesToBuy to any resources missing from upkeep cost
 		let upkeepResourcesToBuy = {};
-		if(!this.hasUpkeep() ) {
+		if(!this.hasUpkeep() && this.shouldBuyUpkeep ) {
 			for(let resource in this.upkeepCost) {
 				if(!this.has(resource, this.upkeepCost[resource]) ) {
 					let amount = this.upkeepCost[resource] - this.inventory[resource];
@@ -531,13 +605,15 @@ export class Firm {
 		// remaining upkeep resources, not already in buy orders
 		// if(upkeepResourcesToBuy) { // nope
 		// if(upkeepResourcesToBuy!={}) { // nope
-		if(Object.keys(upkeepResourcesToBuy).length > 0) {
+		// the firm will not buy upkeep first and then buy the rest of its needs, it does them in random order
+		// potential issue
+		/*if(Object.keys(upkeepResourcesToBuy).length > 0) {
 			for(let resource in upkeepResourcesToBuy) {
 				// for remaining upkeep resources, pay 5x average
 				let buyPrice = priceInfo[resource].avgPrice * 5;
 				orders.push(new Order('buy', this.firmNum, resource, buyPrice, upkeepResourcesToBuy[resource]) );
 			}			
-		}
+		}*/
 
 		return orders;
 	}
