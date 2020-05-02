@@ -50,6 +50,21 @@ export function normal01() {
 }
 
 /**
+* Input verification for the user
+* Given the user string, min and max values, and a default value upon error
+* Cleanses the input and returns a number within the specified bounds
+* Note: num can be string, int, or float, and will always return an int
+* Note: "default" is a reserved word (switch statements)
+* Note: NaN is the value obtained by parsing empty strings or invalid characters
+* Note: no need ot check for undefined, null, or Infinity
+* This function handles empty or invalid strings, negatives, decimals, and more
+*/
+export function verify(num, min, max, defaultVal) {
+	num = Math.max(Math.min(parseInt(num),max),min);
+	return isNaN(num) ? defaultVal : num;
+}
+
+/**
 * Returns the number of firms of the given type
 */
 export function getFirmCount(type, firms) {
