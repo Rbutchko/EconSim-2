@@ -20,8 +20,8 @@ import { player, getCountOfPlayerFirms } from './player.js';
 export function drawPlayerUI() {
 	let tmpHTML = '<div class="row">';
 	for(let firm of FIRMS) {
-		tmpHTML += '<div class="col-sm-4">' + capitalize(firm) + ': ' 
-			+ getCountOfPlayerFirms(firm) + getSprite(firm, 'md') + '<br><br></div>';
+		tmpHTML += '<div class="col-sm-4">' + getSprite(firm, 'md') + ' ' + capitalize(firm) + ': ' 
+			+ getCountOfPlayerFirms(firm) + '<br><br></div>';
 	}
 	$('#player-firms').html(tmpHTML+'</div>');
 	// @todo: click on a firm to open it
@@ -32,7 +32,7 @@ export function drawPlayerUI() {
 
 	tmpHTML = '<div class="row">';
 	for(let item in player.inventory)
-		tmpHTML += '<div class="col-sm-4">' + capitalize(item) + ': ' + player.inventory[item] + getSprite(item, 'md') + '<br><br></div>';
+		tmpHTML += '<div class="col-sm-4">' + getSprite(item, 'md') + ' ' + capitalize(item) + ': ' + player.inventory[item] + '<br><br></div>';
 	$('#player-inventory').html(tmpHTML+'</div>');
 	// @todo: click on a resource to open it
 	// and display its flavor, price information, and graphs

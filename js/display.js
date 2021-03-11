@@ -108,7 +108,7 @@ export function display(firms, doDrawChart=false) {
 		tmpHTML += getSprite(item) + capitalize(item) + ': ' + totalInventory[item] + ' | ';
 		totalResources += totalInventory[item];
 	}
-	tmpHTML += 'Total: ' + totalResources;
+	tmpHTML += '<br>Total: ' + totalResources;
 	$('.total-resources').html(tmpHTML);
 
 	tmpHTML = '';
