@@ -92,6 +92,7 @@ html {
 	bottom: 25px;
 	right: 25px;
 	z-index: 99;
+	border-width: 2px;
 }
 
 /*bootstrap custom toggle switch*/

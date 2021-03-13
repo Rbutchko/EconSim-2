@@ -124,5 +124,4 @@ export function display(firms, doDrawChart=false) {
 * @param {Number} width - width of the progress bar in pixels
 * @return {String} progressBar - An HTML string for a progress bar of given width
 */
-const getprogressBar = (width)=>
-	'<div class="progressbar" style="width:' + width + 'px;"></div>';
+const getprogressBar = width=> `<div class="progressbar" style="width:${width}px;"></div>`;
