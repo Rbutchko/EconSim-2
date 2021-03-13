@@ -23,6 +23,23 @@ import { manageTransacitons } from './market.js';
 * Then displays information before first tick
 */
 export function start() {
+
+	// needs to be overridden after all firm classes are defined
+	// so newFirm can be called
+	Firm.addChildFirm = ()=> {
+		// console.log('oh yeah');
+		newFirm(this.type(), Object.values(this.sell)[0]);
+	}
+	Mine.addChildFirm = Firm.addChildFirm;
+	Smith.addChildFirm = Firm.addChildFirm;
+	Forester.addChildFirm = Firm.addChildFirm;
+	Farm.addChildFirm = Firm.addChildFirm;
+	Mill.addChildFirm = Firm.addChildFirm;
+	Baker.addChildFirm = Firm.addChildFirm;
+	Refinery.addChildFirm = Firm.addChildFirm;
+	Mint.addChildFirm = Firm.addChildFirm;
+
+
 	const startFirms = 100;
 	// const startFirms = 50;
 
@@ -36,9 +53,6 @@ export function start() {
 	display(AIs, true);
 }
 
-// needs to be overridden after all firm classes are defined
-// so newFirm can be called
-Firm.addChildFirm = ()=> newFirm(this.type(), Object.values(this.sell)[0]);
 
 /**
 * Returns a new firm of the given type
@@ -64,9 +78,10 @@ export function getNewFirmOfType(type, sellPrice) {
 			return new Refinery(sellPrice);
 		case 'mill':
 			return new Mill(sellPrice);
-		default:
+		default: {
 			console.error(`Type ${type} does not exist`);
 			return null;
+		}
 	}
 }
 

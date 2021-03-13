@@ -170,6 +170,7 @@ export class Firm {
 	* Used by CPUs to reproduce
 	*/
 	addChildFirm() {
+		// console.log('oh no');
 		return true;
 	}
 
