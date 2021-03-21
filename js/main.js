@@ -26,18 +26,18 @@ export function start() {
 
 	// needs to be overridden after all firm classes are defined
 	// so newFirm can be called
-	Firm.addChildFirm = ()=> {
+	Firm.addChildFirm = (type, sellPrice)=> {
 		// console.log('oh yeah');
-		newFirm(this.type(), Object.values(this.sell)[0]);
+		newFirm(type, sellPrice);
 	}
-	Mine.addChildFirm = Firm.addChildFirm;
-	Smith.addChildFirm = Firm.addChildFirm;
-	Forester.addChildFirm = Firm.addChildFirm;
-	Farm.addChildFirm = Firm.addChildFirm;
-	Mill.addChildFirm = Firm.addChildFirm;
-	Baker.addChildFirm = Firm.addChildFirm;
-	Refinery.addChildFirm = Firm.addChildFirm;
-	Mint.addChildFirm = Firm.addChildFirm;
+	// Mine.addChildFirm = Firm.addChildFirm;
+	// Smith.addChildFirm = Firm.addChildFirm;
+	// Forester.addChildFirm = Firm.addChildFirm;
+	// Farm.addChildFirm = Firm.addChildFirm;
+	// Mill.addChildFirm = Firm.addChildFirm;
+	// Baker.addChildFirm = Firm.addChildFirm;
+	// Refinery.addChildFirm = Firm.addChildFirm;
+	// Mint.addChildFirm = Firm.addChildFirm;
 
 
 	const startFirms = 100;
@@ -62,22 +62,46 @@ export function start() {
 */
 export function getNewFirmOfType(type, sellPrice) {
 	switch(type) {
-		case 'forester':
-			return new Forester(sellPrice);
-		case 'smith':
-			return new Smith(sellPrice);
-		case 'farm':
-			return new Farm(sellPrice);
-		case 'mine':
-			return new Mine(sellPrice);
-		case 'mint':
-			return new Mint(sellPrice);
-		case 'baker':
-			return new Baker(sellPrice);
-		case 'refinery':
-			return new Refinery(sellPrice);
-		case 'mill':
-			return new Mill(sellPrice);
+		case 'forester': {
+			let tmp = new Forester(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'smith': {
+			let tmp = new Smith(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'farm': {
+			let tmp = new Farm(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'mine': {
+			let tmp = new Mine(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'mint': {
+			let tmp = new Mint(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'baker': {
+			let tmp = new Baker(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'refinery': {
+			let tmp = new Refinery(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
+		case 'mill': {
+			let tmp = new Mill(sellPrice);
+			tmp.addChildFirm = Firm.addChildFirm;
+			return tmp;
+		}
 		default: {
 			console.error(`Type ${type} does not exist`);
 			return null;

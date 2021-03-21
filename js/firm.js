@@ -160,7 +160,7 @@ export class Firm {
 	*/
 	doExpansion() {
 		this.payAll(this.expandCost);
-		this.addChildFirm();
+		this.addChildFirm(this.type(), Object.values(this.sell)[0]);
 		this.timesExpanded++;
 	}
 
@@ -178,6 +178,7 @@ export class Firm {
 	* Attempts to pay upkeep, otherwise goes bankrupt
 	*/
 	payUpkeep() {
+		// return; // REMOVE ME
 		if(this.hasUpkeep() ) {
 			this.payAll(this.upkeepCost);
 		}
@@ -222,6 +223,7 @@ export class Firm {
 		// taking into account the firm's variance, firm's efficiency, and current season modifier
 		for(let resource in this.producedGoods) {
 			let amountProduced = this.producedGoods[resource] + random(0, this.variance);
+			// amountProduced *= 2; // REMOVE ME
 			amountProduced *= 0.95 + 0.1*this.efficiency;
 			amountProduced *= getSeasonModifier(resource); // add current season's effect
 			amountProduced = Math.round(amountProduced);
